@@ -60,7 +60,7 @@
         <string>Create a new address</string>
        </property>
        <property name="text">
-        <string>&amp;New Address</string>
+        <string>&amp;New</string>
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
@@ -74,7 +74,7 @@
         <string>Copy the currently selected address to the system clipboard</string>
        </property>
        <property name="text">
-        <string>&amp;Copy Address</string>
+        <string>&amp;Copy</string>
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
@@ -163,15 +163,15 @@
       </widget>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
+      <widget class="QPushButton" name="closeButton">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Ok</set>
+       <property name="text">
+        <string>C&amp;lose</string>
        </property>
       </widget>
      </item>
