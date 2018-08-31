@@ -1,0 +1,8 @@
+obj/version.o: version.cpp \
+  /Users/davidserrano/Documents/GitHub/maxcoin/src/version.h \
+  /Users/davidserrano/Documents/GitHub/maxcoin/src/clientversion.h \
+  /Users/davidserrano/Documents/GitHub/maxcoin/src/obj/build.h
+version.cpp :
+  /Users/davidserrano/Documents/GitHub/maxcoin/src/version.h :
+  /Users/davidserrano/Documents/GitHub/maxcoin/src/clientversion.h :
+  /Users/davidserrano/Documents/GitHub/maxcoin/src/obj/build.h :
