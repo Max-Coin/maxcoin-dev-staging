@@ -1,14 +1,7 @@
-// Copyright (c) 2011-2013 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
 #ifndef ADDRESSBOOKPAGE_H
 #define ADDRESSBOOKPAGE_H
 
 #include <QDialog>
-
-class AddressTableModel;
-class OptionsModel;
 
 namespace Ui {
     class AddressBookPage;
@@ -17,11 +10,11 @@ class AddressTableModel;
 class OptionsModel;
 
 QT_BEGIN_NAMESPACE
+class QTableView;
 class QItemSelection;
+class QSortFilterProxyModel;
 class QMenu;
 class QModelIndex;
-class QSortFilterProxyModel;
-class QTableView;
 QT_END_NAMESPACE
 
 /** Widget that shows a list of sending or receiving addresses.
@@ -37,11 +30,11 @@ public:
     };
 
     enum Mode {
-        ForSelection, /**< Open address book to pick address */
+        ForSending, /**< Open address book to pick address for sending */
         ForEditing  /**< Open address book for editing */
     };
 
-    explicit AddressBookPage(Mode mode, Tabs tab, QWidget *parent);
+    explicit AddressBookPage(Mode mode, Tabs tab, QWidget *parent = 0);
     ~AddressBookPage();
 
     void setModel(AddressTableModel *model);
