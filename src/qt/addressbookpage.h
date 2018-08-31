@@ -1,20 +1,25 @@
+// Copyright (c) 2011-2013 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #ifndef ADDRESSBOOKPAGE_H
 #define ADDRESSBOOKPAGE_H
 
 #include <QDialog>
 
-namespace Ui {
-    class AddressBookPage;
-}
 class AddressTableModel;
 class OptionsModel;
 
+namespace Ui {
+    class AddressBookPage;
+}
+
 QT_BEGIN_NAMESPACE
-class QTableView;
 class QItemSelection;
-class QSortFilterProxyModel;
 class QMenu;
 class QModelIndex;
+class QSortFilterProxyModel;
+class QTableView;
 QT_END_NAMESPACE
 
 /** Widget that shows a list of sending or receiving addresses.
