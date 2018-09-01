@@ -20,7 +20,8 @@ struct AddressTableEntry
 {
     enum Type {
         Sending,
-        Receiving
+        Receiving,
+        Hidden /* QSortFilterProxyModel will filter these out */
     };
 
     Type type;
