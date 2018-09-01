@@ -7,6 +7,7 @@
 #include "base58.h"
 #include "wallet.h"
 
+#include <stdint.h>
 
 /* Return positive answer if transaction should be shown in list.
  */
