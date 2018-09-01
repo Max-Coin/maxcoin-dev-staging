@@ -5,10 +5,12 @@
 #ifndef BITCOIN_BLOOM_H
 #define BITCOIN_BLOOM_H
 
+#include "serialize.h"
+
 #include <vector>
 
 #include "uint256.h"
-#include "serialize.h"
+
 
 class COutPoint;
 class CTransaction;
