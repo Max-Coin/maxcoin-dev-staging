@@ -67,6 +67,17 @@ qint64 BitcoinUnits::factor(int unit)
     }
 }
 
+qint64 BitcoinUnits::maxAmount(int unit)
+{
+    switch(unit)
+    {
+    case MAX:  return Q_INT64_C(100000000);
+    case mMAX: return Q_INT64_C(100000000000);
+    case uMAX: return Q_INT64_C(100000000000000);
+    default:   return 0;
+    }
+}
+
 int BitcoinUnits::amountDigits(int unit)
 {
     switch(unit)

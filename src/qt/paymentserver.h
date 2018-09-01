@@ -1,7 +1,9 @@
+// Copyright (c) 2011-2014 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #ifndef PAYMENTSERVER_H
 #define PAYMENTSERVER_H
-
-//
 // This class handles payment requests from clicking on
 // maxcoin: URIs
 //
@@ -17,7 +19,7 @@
 // received at or during startup in a list.
 //
 // When startup is finished and the main window is
-// show, a signal is sent to slot uiReady(), which
+// shown, a signal is sent to slot uiReady(), which
 // emits a receivedURL() signal for any payment
 // requests that happened during startup.
 //
