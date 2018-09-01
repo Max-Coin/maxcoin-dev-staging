@@ -8,6 +8,7 @@
 #include "uint256.h"
 
 #include <QList>
+#include <QString>
 
 class CWallet;
 class CWalletTx;
