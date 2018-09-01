@@ -4,18 +4,20 @@
 
 #include "bitcoinamountfield.h"
 
-#include "qvaluecombobox.h"
 #include "bitcoinunits.h"
 #include "guiconstants.h"
+#include "qvaluecombobox.h"
 
+#include <QApplication>
+#include <QDoubleSpinBox>
 #include <QHBoxLayout>
 #include <QKeyEvent>
-#include <QDoubleSpinBox>
-#include <QApplication>
 #include <qmath.h> // for qPow()
 
-BitcoinAmountField::BitcoinAmountField(QWidget *parent):
-        QWidget(parent), amount(0), currentUnit(-1)
+BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
+    QWidget(parent),
+    amount(0),
+    currentUnit(-1)
 {
     amount = new QDoubleSpinBox(this);
     amount->setLocale(QLocale::c());
