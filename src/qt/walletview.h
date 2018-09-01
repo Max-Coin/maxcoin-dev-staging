@@ -9,12 +9,14 @@
 
 class BitcoinGUI;
 class ClientModel;
-class WalletModel;
-class TransactionView;
 class OverviewPage;
+class ReceiveCoinsDialog;
+class SendCoinsDialog;
+class SendCoinsRecipient;
+class TransactionView;
+class WalletModel;
 class AddressBookPage;
 class MiningPage;
-class SendCoinsDialog;
 class SignVerifyMessageDialog;
 class RPCConsole;
 
