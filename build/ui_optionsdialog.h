@@ -84,7 +84,7 @@ public:
     {
         if (OptionsDialog->objectName().isEmpty())
             OptionsDialog->setObjectName(QStringLiteral("OptionsDialog"));
-        OptionsDialog->resize(540, 380);
+        OptionsDialog->resize(560, 400);
         OptionsDialog->setModal(true);
         verticalLayout = new QVBoxLayout(OptionsDialog);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -351,16 +351,16 @@ public:
         resetButton->setText(QApplication::translate("OptionsDialog", "&Reset Options", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tabMain), QApplication::translate("OptionsDialog", "&Main", nullptr));
 #ifndef QT_NO_TOOLTIP
-        mapPortUpnp->setToolTip(QApplication::translate("OptionsDialog", "Automatically open the MaxCoin client port on the router. This only works when your router supports UPnP and it is enabled.", nullptr));
+        mapPortUpnp->setToolTip(QApplication::translate("OptionsDialog", "Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.", nullptr));
 #endif // QT_NO_TOOLTIP
         mapPortUpnp->setText(QApplication::translate("OptionsDialog", "Map port using &UPnP", nullptr));
 #ifndef QT_NO_TOOLTIP
-        connectSocks->setToolTip(QApplication::translate("OptionsDialog", "Connect to the MaxCoin network through a SOCKS proxy (e.g. when connecting through Tor).", nullptr));
+        connectSocks->setToolTip(QApplication::translate("OptionsDialog", "Connect to the Bitcoin network through a SOCKS proxy.", nullptr));
 #endif // QT_NO_TOOLTIP
-        connectSocks->setText(QApplication::translate("OptionsDialog", "&Connect through SOCKS proxy:", nullptr));
+        connectSocks->setText(QApplication::translate("OptionsDialog", "&Connect through SOCKS proxy (default proxy):", nullptr));
         proxyIpLabel->setText(QApplication::translate("OptionsDialog", "Proxy &IP:", nullptr));
 #ifndef QT_NO_TOOLTIP
-        proxyIp->setToolTip(QApplication::translate("OptionsDialog", "IP address of the proxy (e.g. 127.0.0.1)", nullptr));
+        proxyIp->setToolTip(QApplication::translate("OptionsDialog", "IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)", nullptr));
 #endif // QT_NO_TOOLTIP
         proxyPortLabel->setText(QApplication::translate("OptionsDialog", "&Port:", nullptr));
 #ifndef QT_NO_TOOLTIP
@@ -382,14 +382,14 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tabWindow), QApplication::translate("OptionsDialog", "&Window", nullptr));
         langLabel->setText(QApplication::translate("OptionsDialog", "User Interface &language:", nullptr));
 #ifndef QT_NO_TOOLTIP
-        lang->setToolTip(QApplication::translate("OptionsDialog", "The user interface language can be set here. This setting will take effect after restarting MaxCoin.", nullptr));
+        lang->setToolTip(QApplication::translate("OptionsDialog", "The user interface language can be set here. This setting will take effect after restarting Bitcoin.", nullptr));
 #endif // QT_NO_TOOLTIP
         unitLabel->setText(QApplication::translate("OptionsDialog", "&Unit to show amounts in:", nullptr));
 #ifndef QT_NO_TOOLTIP
         unit->setToolTip(QApplication::translate("OptionsDialog", "Choose the default subdivision unit to show in the interface and when sending coins.", nullptr));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
-        displayAddresses->setToolTip(QApplication::translate("OptionsDialog", "Whether to show MaxCoin addresses in the transaction list or not.", nullptr));
+        displayAddresses->setToolTip(QApplication::translate("OptionsDialog", "Whether to show Bitcoin addresses in the transaction list or not.", nullptr));
 #endif // QT_NO_TOOLTIP
         displayAddresses->setText(QApplication::translate("OptionsDialog", "&Display addresses in transaction list", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tabDisplay), QApplication::translate("OptionsDialog", "&Display", nullptr));
