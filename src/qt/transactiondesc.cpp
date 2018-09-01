@@ -10,9 +10,12 @@
 #include "base58.h"
 #include "db.h"
 #include "main.h"
+#include "paymentserver.h"
+#include "transactionrecord.h"
 #include "ui_interface.h"
 #include "wallet.h"
 
+#include <stdint.h>
 #include <string>
 
 QString TransactionDesc::FormatTxStatus(const CWalletTx& wtx)
