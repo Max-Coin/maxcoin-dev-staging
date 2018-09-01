@@ -1,18 +1,27 @@
+// Copyright (c) 2011-2014 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "sendcoinsdialog.h"
 #include "ui_sendcoinsdialog.h"
 
-#include "walletmodel.h"
+#include "addresstablemodel.h"
 #include "bitcoinunits.h"
-#include "addressbookpage.h"
+#include "coincontroldialog.h"
+#include "guiutil.h"
 #include "optionsmodel.h"
 #include "sendcoinsentry.h"
-#include "guiutil.h"
-#include "askpassphrasedialog.h"
+#include "walletmodel.h"
+
 #include "base58.h"
+#include "coincontrol.h"
+#include "ui_interface.h"
 
 #include <QMessageBox>
-#include <QTextDocument>
 #include <QScrollBar>
+#include <QTextDocument>
+#include "askpassphrasedialog.h"
+#include "addressbookpage.h"
 
 SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     QDialog(parent),
