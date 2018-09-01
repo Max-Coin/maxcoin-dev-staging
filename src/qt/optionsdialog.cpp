@@ -10,14 +10,18 @@
 #include "ui_optionsdialog.h"
 
 #include "bitcoinunits.h"
+#include "guiutil.h"
 #include "monitoreddatamapper.h"
-#include "netbase.h"
 #include "optionsmodel.h"
+
+#include "netbase.h"
+#include "txdb.h" // for -dbcache defaults
 
 #include <QDir>
 #include <QIntValidator>
 #include <QLocale>
 #include <QMessageBox>
+#include <QTimer>
 
 OptionsDialog::OptionsDialog(QWidget *parent) :
     QDialog(parent),
