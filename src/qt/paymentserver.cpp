@@ -3,9 +3,13 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "paymentserver.h"
+
+#include "bitcoinunits.h"
+#include "guiconstants.h"
+#include "guiutil.h"
+#include "optionsmodel.h"
 #include <QApplication>
 
-#include "guiconstants.h"
 #include "ui_interface.h"
 #include "util.h"
 
