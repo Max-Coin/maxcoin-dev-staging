@@ -11,6 +11,8 @@
 #include "guiutil.h"
 #include "intro.h"
 #include "optionsmodel.h"
+#include "splashscreen.h"
+#include "utilitydialog.h"
 #include "walletmodel.h"
 
 
@@ -18,7 +20,7 @@
 #include "util.h"
 #include "ui_interface.h"
 #include "paymentserver.h"
-#include "splashscreen.h"
+
 
 #include <QMessageBox>
 #include <QLocale>
