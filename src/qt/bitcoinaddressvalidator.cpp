@@ -42,11 +42,13 @@ QValidator::State BitcoinAddressValidator::validate(QString &input, int &pos) co
         default:
             break;
         }
+
         // Remove whitespace
-        if(ch.isSpace())
+        if (ch.isSpace())
             removeChar = true;
+
         // To next character
-        if(removeChar)
+        if (removeChar)
             input.remove(idx, 1);
         else
             ++idx;
@@ -54,14 +56,14 @@ QValidator::State BitcoinAddressValidator::validate(QString &input, int &pos) co
 
     // Validation
     QValidator::State state = QValidator::Acceptable;
-    for(int idx=0; idx<input.size(); ++idx)
+    for (int idx = 0; idx < input.size(); ++idx)
     {
         int ch = input.at(idx).unicode();
 
-        if(((ch >= '0' && ch<='9') ||
-           (ch >= 'a' && ch<='z') ||
-           (ch >= 'A' && ch<='Z')) &&
-           ch != 'l' && ch != 'I' && ch != '0' && ch != 'O')
+        if (((ch >= '0' && ch<='9') ||
+            (ch >= 'a' && ch<='z') ||
+            (ch >= 'A' && ch<='Z')) &&
+            ch != 'l' && ch != 'I' && ch != '0' && ch != 'O')
         {
             // Alphanumeric and not a 'forbidden' character
         }
