@@ -18,7 +18,7 @@ using namespace std;
 using namespace boost;
 
 
-static uint64 nAccountingEntryNumber = 0;
+static uint64_t nAccountingEntryNumber = 0;
 
 //
 // CWalletDB
@@ -49,7 +49,7 @@ bool CWalletDB::WriteAccount(const string& strAccount, const CAccount& account)
     return Write(make_pair(string("acc"), strAccount), account);
 }
 
-bool CWalletDB::WriteAccountingEntry(const uint64 nAccEntryNum, const CAccountingEntry& acentry)
+bool CWalletDB::WriteAccountingEntry(const uint64_t nAccEntryNum, const CAccountingEntry& acentry)
 {
     return Write(boost::make_tuple(string("acentry"), acentry.strAccount, nAccEntryNum), acentry);
 }
@@ -59,12 +59,12 @@ bool CWalletDB::WriteAccountingEntry(const CAccountingEntry& acentry)
     return WriteAccountingEntry(++nAccountingEntryNumber, acentry);
 }
 
-int64 CWalletDB::GetAccountCreditDebit(const string& strAccount)
+int64_t CWalletDB::GetAccountCreditDebit(const string& strAccount)
 {
     list<CAccountingEntry> entries;
     ListAccountCreditDebit(strAccount, entries);
 
-    int64 nCreditDebit = 0;
+    int64_t nCreditDebit = 0;
     BOOST_FOREACH (const CAccountingEntry& entry, entries)
         nCreditDebit += entry.nCreditDebit;
 
@@ -79,12 +79,12 @@ void CWalletDB::ListAccountCreditDebit(const string& strAccount, list<CAccountin
     if (!pcursor)
         throw runtime_error("CWalletDB::ListAccountCreditDebit() : cannot create DB cursor");
     unsigned int fFlags = DB_SET_RANGE;
-    while(true)
+    while (true)
     {
         // Read next record
         CDataStream ssKey(SER_DISK, CLIENT_VERSION);
         if (fFlags == DB_SET_RANGE)
-            ssKey << boost::make_tuple(string("acentry"), (fAllAccounts? string("") : strAccount), uint64(0));
+            ssKey << boost::make_tuple(string("acentry"), (fAllAccounts? string("") : strAccount), uint64_t(0));
         CDataStream ssValue(SER_DISK, CLIENT_VERSION);
         int ret = ReadAtCursor(pcursor, ssKey, ssValue, fFlags);
         fFlags = DB_NEXT;
@@ -124,7 +124,7 @@ CWalletDB::ReorderTransactions(CWallet* pwallet)
 
     // First: get all CWalletTx and CAccountingEntry into a sorted-by-time multimap.
     typedef pair<CWalletTx*, CAccountingEntry*> TxPair;
-    typedef multimap<int64, TxPair > TxItems;
+    typedef multimap<int64_t, TxPair > TxItems;
     TxItems txByTime;
 
     for (map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
@@ -139,14 +139,14 @@ CWalletDB::ReorderTransactions(CWallet* pwallet)
         txByTime.insert(make_pair(entry.nTime, TxPair((CWalletTx*)0, &entry)));
     }
 
-    int64& nOrderPosNext = pwallet->nOrderPosNext;
+    int64_t& nOrderPosNext = pwallet->nOrderPosNext;
     nOrderPosNext = 0;
-    std::vector<int64> nOrderPosOffsets;
+    std::vector<int64_t> nOrderPosOffsets;
     for (TxItems::iterator it = txByTime.begin(); it != txByTime.end(); ++it)
     {
         CWalletTx *const pwtx = (*it).second.first;
         CAccountingEntry *const pacentry = (*it).second.second;
-        int64& nOrderPos = (pwtx != 0) ? pwtx->nOrderPos : pacentry->nOrderPos;
+        int64_t& nOrderPos = (pwtx != 0) ? pwtx->nOrderPos : pacentry->nOrderPos;
 
         if (nOrderPos == -1)
         {
@@ -160,8 +160,8 @@ CWalletDB::ReorderTransactions(CWallet* pwallet)
         }
         else
         {
-            int64 nOrderPosOff = 0;
-            BOOST_FOREACH(const int64& nOffsetStart, nOrderPosOffsets)
+            int64_t nOrderPosOff = 0;
+            BOOST_FOREACH(const int64_t& nOffsetStart, nOrderPosOffsets)
             {
                 if (nOrderPos >= nOffsetStart)
                     ++nOrderPosOff;

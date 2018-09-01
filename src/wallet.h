@@ -39,7 +39,7 @@ enum WalletFeature
 class CKeyPool
 {
 public:
-    int64 nTime;
+    int64_t nTime;
     CPubKey vchPubKey;
 
     CKeyPool()

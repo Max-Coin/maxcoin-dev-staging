@@ -24,7 +24,6 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddressBookPage),
     model(0),
-    optionsModel(0),
     mode(mode),
     tab(tab)
 {
@@ -34,8 +33,6 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     ui->newAddress->setIcon(QIcon());
     ui->copyAddress->setIcon(QIcon());
     ui->deleteAddress->setIcon(QIcon());
-    ui->verifyMessage->setIcon(QIcon());
-    ui->signMessage->setIcon(QIcon());
     ui->exportButton->setIcon(QIcon());
 #endif
 
@@ -60,19 +57,19 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     switch(tab)
     {
     case SendingTab:
-        ui->labelExplanation->setText(tr("These are your MaxCoin addresses for sending payments. Always check the amount and the receiving address before sending coins."));
+        ui->labelExplanation->setText(tr("These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins."));
         ui->deleteAddress->setVisible(true);
         ui->signMessage->setVisible(false);
         break;
     case ReceivingTab:
-        ui->labelExplanation->setText(tr("These are your MaxCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you."));
+        ui->labelExplanation->setText(tr("These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction."));
         ui->deleteAddress->setVisible(false);
         ui->signMessage->setVisible(true);
         break;
     }
 
     // Context menu actions
-    QAction *copyAddressAction = new QAction(ui->copyAddress->text(), this);
+    QAction *copyAddressAction = new QAction(tr("&Copy Address"), this);
     QAction *copyLabelAction = new QAction(tr("Copy &Label"), this);
     QAction *editAction = new QAction(tr("&Edit"), this);
     QAction *sendCoinsAction = new QAction(tr("Send &Coins"), this);
@@ -152,12 +149,12 @@ void AddressBookPage::setModel(AddressTableModel *model)
     ui->tableView->horizontalHeader()->setResizeMode(AddressTableModel::Label, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setResizeMode(AddressTableModel::Address, QHeaderView::ResizeToContents);
 #else
-	ui->tableView->horizontalHeader()->setSectionResizeMode(AddressTableModel::Label, QHeaderView::Stretch);
-	ui->tableView->horizontalHeader()->setSectionResizeMode(AddressTableModel::Address, QHeaderView::ResizeToContents);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(AddressTableModel::Label, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(AddressTableModel::Address, QHeaderView::ResizeToContents);
 #endif
-	
+
     connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
-            this, SLOT(selectionChanged()));
+        this, SLOT(selectionChanged()));
 
     // Select row for newly created address
     connect(model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(selectNewAddress(QModelIndex,int,int)));
@@ -240,9 +237,9 @@ void AddressBookPage::on_newAddress_clicked()
         return;
 
     EditAddressDialog dlg(
-            tab == SendingTab ?
-            EditAddressDialog::NewSendingAddress :
-            EditAddressDialog::NewReceivingAddress, this);
+        tab == SendingTab ?
+        EditAddressDialog::NewSendingAddress :
+        EditAddressDialog::NewReceivingAddress, this);
     dlg.setModel(model);
     if(dlg.exec())
     {
@@ -338,12 +335,12 @@ void AddressBookPage::done(int retval)
 void AddressBookPage::on_exportButton_clicked()
 {
     // CSV is currently the only supported format
-    QString filename = GUIUtil::getSaveFileName(
-            this,
-            tr("Export Address Book Data"), QString(),
-            tr("Comma separated file (*.csv)"));
+    QString filename = GUIUtil::getSaveFileName(this,
+        tr("Export Address List"), QString(),
+        tr("Comma separated file (*.csv)"), NULL);
 
-    if (filename.isNull()) return;
+    if (filename.isNull())
+        return;
 
     CSVModelWriter writer(filename);
 
@@ -352,10 +349,9 @@ void AddressBookPage::on_exportButton_clicked()
     writer.addColumn("Label", AddressTableModel::Label, Qt::EditRole);
     writer.addColumn("Address", AddressTableModel::Address, Qt::EditRole);
 
-    if(!writer.write())
-    {
-        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
-                              QMessageBox::Abort, QMessageBox::Abort);
+    if(!writer.write()) {
+        QMessageBox::critical(this, tr("Exporting Failed"),
+            tr("There was an error trying to save the address list to %1.").arg(filename));
     }
 }
 
