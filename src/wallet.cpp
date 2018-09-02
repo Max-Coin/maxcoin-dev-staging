@@ -139,7 +139,7 @@ bool CWallet::ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase,
                 return false;
             if (CCryptoKeyStore::Unlock(vMasterKey))
             {
-                int64_t nStartTime = GetTimeMillis();
+                int64 nStartTime = GetTimeMillis();
                 crypter.SetKeyFromPassphrase(strNewWalletPassphrase, pMasterKey.second.vchSalt, pMasterKey.second.nDeriveIterations, pMasterKey.second.nDerivationMethod);
                 pMasterKey.second.nDeriveIterations = pMasterKey.second.nDeriveIterations * (100 / ((double)(GetTimeMillis() - nStartTime)));
 
@@ -247,7 +247,7 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
     RAND_bytes(&kMasterKey.vchSalt[0], WALLET_CRYPTO_SALT_SIZE);
 
     CCrypter crypter;
-    int64_t nStartTime = GetTimeMillis();
+    int64 nStartTime = GetTimeMillis();
     crypter.SetKeyFromPassphrase(strWalletPassphrase, kMasterKey.vchSalt, 25000, kMasterKey.nDerivationMethod);
     kMasterKey.nDeriveIterations = 2500000 / ((double)(GetTimeMillis() - nStartTime));
 
@@ -310,7 +310,7 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
     return true;
 }
 
-int64_t CWallet::IncOrderPosNext(CWalletDB *pwalletdb)
+int64 CWallet::IncOrderPosNext(CWalletDB *pwalletdb)
 {
     int64 nRet = nOrderPosNext++;
     if (pwalletdb) {
@@ -405,7 +405,7 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn)
                     unsigned int latestEntry = 0;
                     {
                         // Tolerate times up to the last timestamp in the wallet not more than 5 minutes into the future
-                        int64_t latestTolerated = latestNow + 300;
+                        int64 latestTolerated = latestNow + 300;
                         std::list<CAccountingEntry> acentries;
                         TxItems txOrdered = OrderedTxItems(acentries);
                         for (TxItems::reverse_iterator it = txOrdered.rbegin(); it != txOrdered.rend(); ++it)
@@ -414,7 +414,7 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn)
                             if (pwtx == &wtx)
                                 continue;
                             CAccountingEntry *const pacentry = (*it).second.second;
-                            int64_t nSmartTime;
+                            int64 nSmartTime;
                             if (pwtx)
                             {
                                 nSmartTime = pwtx->nTimeSmart;
@@ -563,7 +563,7 @@ bool CWallet::IsMine(const CTxIn &txin) const
     return false;
 }
 
-int64_t CWallet::GetDebit(const CTxIn &txin) const
+int64 CWallet::GetDebit(const CTxIn &txin) const
 {
     {
         LOCK(cs_wallet);
@@ -945,9 +945,9 @@ int64 CWallet::GetBalance() const
     return nTotal;
 }
 
-int64_t CWallet::GetUnconfirmedBalance() const
+int64 CWallet::GetUnconfirmedBalance() const
 {
-    int64_t nTotal = 0;
+    int64 nTotal = 0;
     {
         LOCK(cs_wallet);
         for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
@@ -960,9 +960,9 @@ int64_t CWallet::GetUnconfirmedBalance() const
     return nTotal;
 }
 
-int64_t CWallet::GetImmatureBalance() const
+int64 CWallet::GetImmatureBalance() const
 {
-    int64_t nTotal = 0;
+    int64 nTotal = 0;
     {
         LOCK(cs_wallet);
         for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
@@ -1016,7 +1016,7 @@ static void ApproximateBestSubset(vector<pair<int64, pair<const CWalletTx*,unsig
     for (int nRep = 0; nRep < iterations && nBest != nTargetValue; nRep++)
     {
         vfIncluded.assign(vValue.size(), false);
-        int64_t nTotal = 0;
+        int64 nTotal = 0;
         bool fReachedTarget = false;
         for (int nPass = 0; nPass < 2 && !fReachedTarget; nPass++)
         {
@@ -1072,9 +1072,9 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, int nConfMine, int nConfThe
             continue;
 
         int i = output.i;
-        int64_t n = pcoin->vout[i].nValue;
+        int64 n = pcoin->vout[i].nValue;
 
-        pair<int64_t,pair<const CWalletTx*,unsigned int> > coin = make_pair(n,make_pair(pcoin, i));
+        pair<int64,pair<const CWalletTx*,unsigned int> > coin = make_pair(n,make_pair(pcoin, i));
 
         if (n == nTargetValue)
         {
@@ -1115,7 +1115,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, int nConfMine, int nConfThe
     // Solve subset sum by stochastic approximation
     sort(vValue.rbegin(), vValue.rend(), CompareValueOnly());
     vector<char> vfBest;
-    int64_t nBest;
+    int64 nBest;
 
     ApproximateBestSubset(vValue, nTotalLower, nTargetValue, vfBest, nBest, 1000);
     if (nBest != nTargetValue && nTotalLower >= nTargetValue + CENT)
@@ -1164,8 +1164,8 @@ bool CWallet::SelectCoins(int64 nTargetValue, set<pair<const CWalletTx*,unsigned
 bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                                 CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason)
 {
-    int64_t nValue = 0;
-    BOOST_FOREACH (const PAIRTYPE(CScript, int64_t)& s, vecSend)
+    int64 nValue = 0;
+    BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
     {
         if (nValue < 0)
         {
@@ -1192,10 +1192,10 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 wtxNew.vout.clear();
                 wtxNew.fFromMe = true;
 
-                int64_t nTotalValue = nValue + nFeeRet;
+                int64 nTotalValue = nValue + nFeeRet;
                 double dPriority = 0;
                 // vouts to the payees
-                BOOST_FOREACH (const PAIRTYPE(CScript, int64_t)& s, vecSend)
+                BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
                 {
                     CTxOut txout(s.second, s.first);
                     if (txout.IsDust())
@@ -1216,7 +1216,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 }
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
                 {
-                    int64_t nCredit = pcoin.first->vout[pcoin.second].nValue;
+                    int64 nCredit = pcoin.first->vout[pcoin.second].nValue;
                     //The coin age after the next block (depth+1) is used instead of the current,
                     //reflecting an assumption the user would accept a bit more delay for
                     //a chance at a free transaction.
@@ -1229,7 +1229,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 // NOTE: this depends on the exact behaviour of GetMinFee
                 if (nFeeRet < CTransaction::nMinTxFee && nChange > 0 && nChange < CENT)
                 {
-                    int64_t nMoveToFee = min(nChange, CTransaction::nMinTxFee - nFeeRet);
+                    int64 nMoveToFee = min(nChange, CTransaction::nMinTxFee - nFeeRet);
                     nChange -= nMoveToFee;
                     nFeeRet += nMoveToFee;
                 }
