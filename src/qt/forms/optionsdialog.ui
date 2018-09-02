@@ -29,11 +29,8 @@
       <attribute name="title">
        <string>&amp;Main</string>
       </attribute>
-
-
-      <layout class="QVBoxLayout" name="verticalLayout_Main">  
-
-     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_Main">
+       <item>
         <widget class="QLabel" name="transactionFeeInfoLabel">
          <property name="text">
           <string>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</string>
@@ -46,7 +43,6 @@
          </property>
         </widget>
        </item>
-
        <item>
         <widget class="QCheckBox" name="bitcoinAtStartup">
          <property name="toolTip">
@@ -57,47 +53,28 @@
          </property>
         </widget>
        </item>
-
-
-  <item>
-           <widget class="QCheckBox" name="coinControlFeatures">
-            <property name="toolTip">
-             <string>Whether to show coin control features or not.</string>
-            </property>
-            <property name="text">
-             <string>Enable coin &amp;control features</string>
-            </property>
-           </widget>
-          </item>
-
-
-
-          <item>
-           <widget class="QCheckBox" name="spendZeroConfChange">
-            <property name="toolTip">
-             <string>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</string>
-            </property>
-            <property name="text">
-             <string>&amp;Spend unconfirmed change</string>
-            </property>
-           </widget>
-          </item>
-
-
-
-
-
-
-
-
-
-
-
-
+       <item>
+        <widget class="QCheckBox" name="coinControlFeatures">
+         <property name="toolTip">
+          <string>Whether to show coin control features or not.</string>
+         </property>
+         <property name="text">
+          <string>Enable coin &amp;control features</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="spendZeroConfChange">
+         <property name="toolTip">
+          <string>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</string>
+         </property>
+         <property name="text">
+          <string>&amp;Spend unconfirmed change</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_1_Main">
-
-
          <item>
           <widget class="QLabel" name="transactionFeeLabel">
            <property name="text">
@@ -111,8 +88,6 @@
            </property>
           </widget>
          </item>
-
-
          <item>
           <widget class="BitcoinAmountField" name="transactionFee"/>
          </item>
@@ -129,15 +104,8 @@
            </property>
           </spacer>
          </item>
-
-
         </layout>
        </item>
-
-
-
-
-
        <item>
         <spacer name="verticalSpacer_Main">
          <property name="orientation">
@@ -511,26 +479,22 @@
   </layout>
  </widget>
  <customwidgets>
- 
- <customwidget>
+  <customwidget>
    <class>BitcoinAmountField</class>
    <extends>QSpinBox</extends>
    <header>bitcoinamountfield.h</header>
    <container>1</container>
   </customwidget>
-
   <customwidget>
    <class>QValidatedLineEdit</class>
    <extends>QLineEdit</extends>
    <header>qvalidatedlineedit.h</header>
   </customwidget>
-
   <customwidget>
    <class>QValueComboBox</class>
    <extends>QComboBox</extends>
    <header>qvaluecombobox.h</header>
   </customwidget>
-
  </customwidgets>
  <resources/>
  <connections/>

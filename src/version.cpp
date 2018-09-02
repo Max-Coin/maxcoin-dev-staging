@@ -29,7 +29,7 @@ const std::string CLIENT_NAME("Max");
 //   * otherwise, use v[maj].[min].[rev].[build]-unk
 // finally CLIENT_VERSION_SUFFIX is added
 
-// First, include build.h if requested 
+// First, include build.h if requested
 #ifdef HAVE_BUILD_INFO
 #    include "build.h"
 #endif
