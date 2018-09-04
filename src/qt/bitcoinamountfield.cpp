@@ -19,6 +19,8 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     amount(0),
     currentUnit(-1)
 {
+    nSingleStep = 100000; // satoshis
+
     amount = new QDoubleSpinBox(this);
     amount->setLocale(QLocale::c());
     amount->setDecimals(8);
@@ -66,7 +68,9 @@ bool BitcoinAmountField::validate()
     bool valid = true;
     if (amount->value() == 0.0)
         valid = false;
-    if (valid && !BitcoinUnits::parse(currentUnit, text(), 0))
+    else if (!BitcoinUnits::parse(currentUnit, text(), 0))
+        valid = false;
+    else if (amount->value() > BitcoinUnits::maxAmount(currentUnit))
         valid = false;
 
     setValid(valid);
@@ -121,7 +125,7 @@ qint64 BitcoinAmountField::value(bool *valid_out) const
 {
     qint64 val_out = 0;
     bool valid = BitcoinUnits::parse(currentUnit, text(), &val_out);
-    if(valid_out)
+    if (valid_out)
     {
         *valid_out = valid;
     }
@@ -131,6 +135,12 @@ qint64 BitcoinAmountField::value(bool *valid_out) const
 void BitcoinAmountField::setValue(qint64 value)
 {
     setText(BitcoinUnits::format(currentUnit, value));
+}
+
+void BitcoinAmountField::setReadOnly(bool fReadOnly)
+{
+    amount->setReadOnly(fReadOnly);
+    unit->setEnabled(!fReadOnly);
 }
 
 void BitcoinAmountField::unitChanged(int idx)
@@ -150,13 +160,9 @@ void BitcoinAmountField::unitChanged(int idx)
     // Set max length after retrieving the value, to prevent truncation
     amount->setDecimals(BitcoinUnits::decimals(currentUnit));
     amount->setMaximum(qPow(10, BitcoinUnits::amountDigits(currentUnit)) - qPow(10, -amount->decimals()));
+    amount->setSingleStep((double)nSingleStep / (double)BitcoinUnits::factor(currentUnit));
 
-    if(currentUnit == BitcoinUnits::uMAX)
-        amount->setSingleStep(0.01);
-    else
-        amount->setSingleStep(0.001);
-
-    if(valid)
+    if (valid)
     {
         // If value was valid, re-place it in the widget with the new unit
         setValue(currentValue);
@@ -172,4 +178,10 @@ void BitcoinAmountField::unitChanged(int idx)
 void BitcoinAmountField::setDisplayUnit(int newUnit)
 {
     unit->setValue(newUnit);
+}
+
+void BitcoinAmountField::setSingleStep(qint64 step)
+{
+    nSingleStep = step;
+    unitChanged(unit->currentIndex());
 }
