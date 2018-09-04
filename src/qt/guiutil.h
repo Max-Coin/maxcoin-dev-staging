@@ -5,9 +5,9 @@
 #ifndef GUIUTIL_H
 #define GUIUTIL_H
 
-#include <QString>
-#include <QObject>
 #include <QMessageBox>
+#include <QObject>
+#include <QString>
 
 class SendCoinsRecipient;
 
