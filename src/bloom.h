@@ -9,11 +9,9 @@
 
 #include <vector>
 
-#include "uint256.h"
-
-
 class COutPoint;
 class CTransaction;
+#include "uint256.h"
 
 // 20,000 items with fp rate < 0.1% or 10,000 items and <0.0001%
 static const unsigned int MAX_BLOOM_FILTER_SIZE = 36000; // bytes

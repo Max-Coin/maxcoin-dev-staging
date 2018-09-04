@@ -7,13 +7,14 @@
 
 #include "util.h"
 #include "main.h"
-//#include <boost/version.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
 
 #ifndef WIN32
 #include "sys/stat.h"
 #endif
+
+#include <boost/filesystem.hpp>
+#include <boost/version.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 using namespace std;
 using namespace boost;

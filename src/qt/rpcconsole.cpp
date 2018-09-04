@@ -1,3 +1,7 @@
+// Copyright (c) 2011-2014 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "rpcconsole.h"
 #include "ui_rpcconsole.h"
 
@@ -5,16 +9,15 @@
 #include "bitcoinrpc.h"
 #include "guiutil.h"
 
-#include <QTime>
-#include <QThread>
+#include <openssl/crypto.h>
 #include <QKeyEvent>
 #include <QScrollBar>
+#include <QThread>
+#include <QTime>
 
 #if QT_VERSION < 0x050000
 #include <QUrl>
 #endif
-
-#include <openssl/crypto.h>
 
 // TODO: add a scrollback limit, as there is currently none
 // TODO: make it possible to filter out categories (esp debug messages when implemented)
