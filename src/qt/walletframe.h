@@ -17,6 +17,7 @@ class WalletStack;
 class WalletFrame : public QFrame
 {
     Q_OBJECT
+
 public:
     explicit WalletFrame(BitcoinGUI *_gui);
     ~WalletFrame();

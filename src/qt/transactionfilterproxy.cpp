@@ -24,6 +24,7 @@ TransactionFilterProxy::TransactionFilterProxy(QObject *parent) :
     typeFilter(ALL_TYPES),
     minAmount(0),
     limitRows(-1),
+    showInactive(true)
 {
 }
 
