@@ -3,15 +3,16 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "walletmodel.h"
-#include "guiconstants.h"
-#include "optionsmodel.h"
-#include "addresstablemodel.h"
-#include "transactiontablemodel.h"
 
+#include "addresstablemodel.h"
+#include "guiconstants.h"
+#include "transactiontablemodel.h"
+#include "optionsmodel.h"
+
+#include "base58.h"
 #include "ui_interface.h"
 #include "wallet.h"
 #include "walletdb.h" // for BackupWallet
-#include "base58.h"
 
 #include <QSet>
 #include <QTimer>

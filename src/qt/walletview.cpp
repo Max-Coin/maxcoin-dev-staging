@@ -3,24 +3,27 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "walletview.h"
-#include "bitcoingui.h"
-#include "transactiontablemodel.h"
+
 #include "addressbookpage.h"
+#include "askpassphrasedialog.h"
+#include "bitcoingui.h"
+#include "clientmodel.h"
+#include "optionsmodel.h"
+#include "overviewpage.h"
 #include "sendcoinsdialog.h"
 #include "signverifymessagedialog.h"
-#include "clientmodel.h"
-#include "walletmodel.h"
-#include "optionsmodel.h"
+#include "transactiontablemodel.h"
 #include "transactionview.h"
-#include "overviewpage.h"
-#include "askpassphrasedialog.h"
+#include "walletmodel.h"
+
 #include "ui_interface.h"
 #include "miningpage.h"
 
+#include <QAction>
+
+#include <QFileDialog>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QAction>
-#include <QFileDialog>
 #include <QPushButton>
 
 #if QT_VERSION < 0x050000
