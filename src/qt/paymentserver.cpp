@@ -8,11 +8,11 @@
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
-#include <QApplication>
 
 #include "ui_interface.h"
 #include "util.h"
 
+#include <QApplication>
 #include <QByteArray>
 #include <QDataStream>
 #include <QDebug>
