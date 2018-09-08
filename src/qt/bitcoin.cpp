@@ -23,7 +23,7 @@
 #include "ui_interface.h"
 #include "paymentserver.h"
 
-#include <QApplication>
+
 #include <QMessageBox>
 #include <QLocale>
 #include <QTimer>
