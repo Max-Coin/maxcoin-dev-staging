@@ -15,6 +15,8 @@
 #include "optionsmodel.h"
 #include "splashscreen.h"
 #include "utilitydialog.h"
+#include "winshutdownmonitor.h"
+#include "paymentserver.h"
 #include "walletmodel.h"
 
 
@@ -23,9 +25,6 @@
 #include "rpcserver.h"
 #include "ui_interface.h"
 #include "util.h"
-#ifdef ENABLE_WALLET
-#include "wallet.h"
-#endif
 
 #include <stdint.h>
 
