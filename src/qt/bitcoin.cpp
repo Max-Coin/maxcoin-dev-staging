@@ -19,25 +19,16 @@
 
 
 #include "init.h"
-#include "main.h"
-#include "rpcserver.h"
-#include "ui_interface.h"
 #include "util.h"
-#ifdef ENABLE_WALLET
-#include "wallet.h"
-#endif
+#include "ui_interface.h"
+#include "paymentserver.h"
 
-#include <stdint.h>
-
-#include <boost/filesystem/operations.hpp>
 #include <QApplication>
-#include <QLibraryInfo>
-#include <QLocale>
 #include <QMessageBox>
-#include <QSettings>
+#include <QLocale>
 #include <QTimer>
 #include <QTranslator>
-#include <QThread>
+#include <QLibraryInfo>
 
 #if QT_VERSION < 0x050000
 #include <QTextCodec>
