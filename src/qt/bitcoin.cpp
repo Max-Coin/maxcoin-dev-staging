@@ -14,13 +14,14 @@
 #include "splashscreen.h"
 #include "utilitydialog.h"
 #include "walletmodel.h"
-
-
+#include "optionsmodel.h"
+#include "guiutil.h"
+#include "guiconstants.h"
 #include "init.h"
 #include "util.h"
 #include "ui_interface.h"
 #include "paymentserver.h"
-
+#include "splashscreen.h"
 
 #include <QMessageBox>
 #include <QLocale>
