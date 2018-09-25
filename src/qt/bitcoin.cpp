@@ -24,6 +24,7 @@
 #include "splashscreen.h"
 
 #include <QMessageBox>
+#include <QTextCodec>
 #include <QLocale>
 #include <QTimer>
 #include <QTranslator>
