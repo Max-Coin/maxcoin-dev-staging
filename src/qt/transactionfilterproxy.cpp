@@ -11,6 +11,8 @@
 
 #include <QDateTime>
 
+#include <cstdlib>
+
 // Earliest date that can be represented (far in the past)
 const QDateTime TransactionFilterProxy::MIN_DATE = QDateTime::fromTime_t(0);
 // Last date that can be represented (far in the future)
@@ -23,8 +25,7 @@ TransactionFilterProxy::TransactionFilterProxy(QObject *parent) :
     addrPrefix(),
     typeFilter(ALL_TYPES),
     minAmount(0),
-    limitRows(-1),
-    showInactive(true)
+    limitRows(-1)
 {
 }
 
