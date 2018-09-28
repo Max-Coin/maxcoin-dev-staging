@@ -25,6 +25,9 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QAction>
+#include <QDesktopServices>
+#include <QFileDialog>
 #include <QPushButton>
 
 #if QT_VERSION < 0x050000
