@@ -13,9 +13,13 @@ class OptionsModel;
 namespace Ui {
     class AddressBookPage;
 }
+class AddressTableModel;
+class OptionsModel;
 
 QT_BEGIN_NAMESPACE
+class QTableView;
 class QItemSelection;
+class QSortFilterProxyModel;
 class QMenu;
 class QModelIndex;
 class QSortFilterProxyModel;
