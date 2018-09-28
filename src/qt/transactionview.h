@@ -11,15 +11,19 @@
 
 class TransactionFilterProxy;
 class WalletModel;
+class TransactionFilterProxy;
 
 QT_BEGIN_NAMESPACE
+class QTableView;
 class QComboBox;
 class QDateTimeEdit;
 class QFrame;
 class QLineEdit;
 class QMenu;
 class QModelIndex;
-class QTableView;
+class QMenu;
+class QFrame;
+class QDateTimeEdit;
 QT_END_NAMESPACE
 
 /** Widget showing the transaction list for a wallet, including a filter row.
