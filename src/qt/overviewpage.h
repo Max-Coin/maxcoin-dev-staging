@@ -15,6 +15,10 @@ class WalletModel;
 namespace Ui {
     class OverviewPage;
 }
+class ClientModel;
+class WalletModel;
+class TxViewDelegate;
+class TransactionFilterProxy;
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
