@@ -10,6 +10,9 @@
     <height>380</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>Address Book</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="labelExplanation">
@@ -57,7 +60,7 @@
         <string>Create a new address</string>
        </property>
        <property name="text">
-        <string>&amp;New</string>
+        <string>&amp;New Address</string>
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
@@ -71,7 +74,7 @@
         <string>Copy the currently selected address to the system clipboard</string>
        </property>
        <property name="text">
-        <string>&amp;Copy</string>
+        <string>&amp;Copy Address</string>
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
