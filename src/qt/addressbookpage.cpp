@@ -10,15 +10,21 @@
 #include "ui_addressbookpage.h"
 
 #include "addresstablemodel.h"
+#include "optionsmodel.h"
 #include "bitcoingui.h"
 #include "csvmodelwriter.h"
 #include "editaddressdialog.h"
+#include "csvmodelwriter.h"
 #include "guiutil.h"
 
-#include <QIcon>
-#include <QMenu>
-#include <QMessageBox>
+#ifdef USE_QRCODE
+#include "qrcodedialog.h"
+#endif
+
 #include <QSortFilterProxyModel>
+#include <QClipboard>
+#include <QMessageBox>
+#include <QMenu>
 
 AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     QDialog(parent),
