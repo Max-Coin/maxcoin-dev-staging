@@ -5,14 +5,13 @@
 #include "sendcoinsdialog.h"
 #include "ui_sendcoinsdialog.h"
 
-#include "addresstablemodel.h"
+#include "walletmodel.h"
 #include "bitcoinunits.h"
-#include "coincontroldialog.h"
-#include "guiutil.h"
+#include "addressbookpage.h"
 #include "optionsmodel.h"
 #include "sendcoinsentry.h"
-#include "walletmodel.h"
-
+#include "guiutil.h"
+#include "askpassphrasedialog.h"
 #include "base58.h"
 #include "coincontrol.h"
 #include "ui_interface.h"
@@ -20,8 +19,7 @@
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QTextDocument>
-#include "askpassphrasedialog.h"
-#include "addressbookpage.h"
+#include <QScrollBar>
 
 SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     QDialog(parent),
