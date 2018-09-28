@@ -8,6 +8,8 @@
 #include <QMessageBox>
 #include <QObject>
 #include <QString>
+#include <QObject>
+#include <QMessageBox>
 
 class SendCoinsRecipient;
 
