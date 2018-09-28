@@ -8,8 +8,9 @@
 #include <QAbstractTableModel>
 #include <QStringList>
 
-class TransactionRecord;
+class CWallet;
 class TransactionTablePriv;
+class TransactionRecord;
 class WalletModel;
 
 class CWallet;
