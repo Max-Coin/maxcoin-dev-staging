@@ -9,15 +9,15 @@
 #include "bitcoinrpc.h"
 #include "guiutil.h"
 
-#include <openssl/crypto.h>
+#include <QTime>
+#include <QThread>
 #include <QKeyEvent>
+#include <QUrl>
 #include <QScrollBar>
 #include <QThread>
 #include <QTime>
 
-#if QT_VERSION < 0x050000
-#include <QUrl>
-#endif
+#include <openssl/crypto.h>
 
 // TODO: add a scrollback limit, as there is currently none
 // TODO: make it possible to filter out categories (esp debug messages when implemented)
