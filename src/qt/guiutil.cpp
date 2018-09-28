@@ -1,16 +1,29 @@
-// Copyright (c) 2011-2013 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+#include <QApplication>
 
 #include "guiutil.h"
 
 #include "bitcoinaddressvalidator.h"
 #include "bitcoinunits.h"
 #include "walletmodel.h"
-
+#include "bitcoinunits.h"
 
 #include "util.h"
 #include "init.h"
+
+#include <QDateTime>
+#include <QDoubleValidator>
+#include <QFont>
+#include <QLineEdit>
+#include <QUrl>
+#include <QTextDocument> // For Qt::escape
+#include <QAbstractItemView>
+#include <QClipboard>
+#include <QFileDialog>
+#include <QDesktopServices>
+#include <QThread>
+
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 #ifdef WIN32
 #ifdef _WIN32_WINNT
