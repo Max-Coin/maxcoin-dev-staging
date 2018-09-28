@@ -6,14 +6,15 @@
 
 #include "bitcoinunits.h"
 #include "guiutil.h"
-
-#include "base58.h"
-#include "db.h"
+#include "bitcoinunits.h"
 #include "main.h"
 #include "paymentserver.h"
 #include "transactionrecord.h"
 #include "ui_interface.h"
 #include "wallet.h"
+#include "db.h"
+#include "ui_interface.h"
+#include "base58.h"
 
 #include <stdint.h>
 #include <string>
