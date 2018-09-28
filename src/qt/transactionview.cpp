@@ -4,27 +4,30 @@
 
 #include "transactionview.h"
 
+#include "transactionfilterproxy.h"
+#include "transactionrecord.h"
+#include "walletmodel.h"
 #include "addresstablemodel.h"
+#include "transactiontablemodel.h"
 #include "bitcoinunits.h"
 #include "csvmodelwriter.h"
+#include "transactiondescdialog.h"
 #include "editaddressdialog.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
-#include "transactiondescdialog.h"
-#include "transactionfilterproxy.h"
-#include "transactionrecord.h"
-#include "transactiontablemodel.h"
-#include "walletmodel.h"
+#include "guiutil.h"
 
 #include <QScrollBar>
 #include <QComboBox>
 #include <QDoubleValidator>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLineEdit>
+#include <QTableView>
 #include <QHeaderView>
 #include <QMessageBox>
-#include <QMenu>
 #include <QPoint>
+#include <QMenu>
 #include <QLabel>
 #include <QDateTimeEdit>
 #include <QTableView>
@@ -351,10 +354,10 @@ void TransactionView::editLabel()
             // Determine type of address, launch appropriate editor dialog type
             QString type = modelIdx.data(AddressTableModel::TypeRole).toString();
 
-            EditAddressDialog dlg(
-                type == AddressTableModel::Receive
-                ? EditAddressDialog::EditReceivingAddress
-                : EditAddressDialog::EditSendingAddress, this);
+            EditAddressDialog dlg(type==AddressTableModel::Receive
+                                         ? EditAddressDialog::EditReceivingAddress
+                                         : EditAddressDialog::EditSendingAddress,
+                                  this);
             dlg.setModel(addressBook);
             dlg.loadRow(idx);
             dlg.exec();
@@ -363,7 +366,7 @@ void TransactionView::editLabel()
         {
             // Add sending address
             EditAddressDialog dlg(EditAddressDialog::NewSendingAddress,
-                this);
+                                  this);
             dlg.setModel(addressBook);
             dlg.setAddress(address);
             dlg.exec();
