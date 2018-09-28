@@ -11,7 +11,12 @@
 #include "optionsmodel.h"
 #include "transactiondesc.h"
 #include "transactionrecord.h"
+#include "guiconstants.h"
+#include "transactiondesc.h"
 #include "walletmodel.h"
+#include "optionsmodel.h"
+#include "addresstablemodel.h"
+#include "bitcoinunits.h"
 
 #include "main.h"
 #include "sync.h"
@@ -20,19 +25,19 @@
 #include "ui_interface.h"
 #include <QTimer>
 
-#include <QColor>
-#include <QDateTime>
-#include <QDebug>
-#include <QIcon>
 #include <QList>
+#include <QColor>
+#include <QTimer>
+#include <QIcon>
+#include <QDateTime>
 
 // Amount column is right-aligned it contains numbers
 static int column_alignments[] = {
-        Qt::AlignLeft|Qt::AlignVCenter, /* status */
-        Qt::AlignLeft|Qt::AlignVCenter, /* date */
-        Qt::AlignLeft|Qt::AlignVCenter, /* type */
-        Qt::AlignLeft|Qt::AlignVCenter, /* address */
-        Qt::AlignRight|Qt::AlignVCenter /* amount */
+        Qt::AlignLeft|Qt::AlignVCenter,
+        Qt::AlignLeft|Qt::AlignVCenter,
+        Qt::AlignLeft|Qt::AlignVCenter,
+        Qt::AlignLeft|Qt::AlignVCenter,
+        Qt::AlignRight|Qt::AlignVCenter
     };
 
 // Comparison operator for sort/binary search of model tx list
@@ -56,9 +61,9 @@ struct TxLessThan
 class TransactionTablePriv
 {
 public:
-    TransactionTablePriv(CWallet *wallet, TransactionTableModel *parent) :
-        wallet(wallet),
-        parent(parent)
+    TransactionTablePriv(CWallet *wallet, TransactionTableModel *parent):
+            wallet(wallet),
+            parent(parent)
     {
     }
 
