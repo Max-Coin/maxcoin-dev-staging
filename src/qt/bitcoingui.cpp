@@ -42,6 +42,7 @@
 #include <QMovie>
 #include <QTimer>
 #include <QDragEnterEvent>
+#include <QUrl>
 #include <QMimeData>
 #include <QStyle>
 #include <QSettings>
@@ -105,8 +106,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent) :
     // Status bar notification icons
     QFrame *frameBlocks = new QFrame();
     frameBlocks->setContentsMargins(0,0,0,0);
-    frameBlocks->setMinimumWidth(80);
-    frameBlocks->setMaximumWidth(80);
+    frameBlocks->setMinimumWidth(56);
+    frameBlocks->setMaximumWidth(56);
     QHBoxLayout *frameBlocksLayout = new QHBoxLayout(frameBlocks);
     frameBlocksLayout->setContentsMargins(3,0,3,0);
     frameBlocksLayout->setSpacing(3);
@@ -295,12 +296,8 @@ void BitcoinGUI::createMenuBar()
     file->addAction(quitAction);
 
     QMenu *settings = appMenuBar->addMenu(tr("&Settings"));
-    QMenu *securityMenu = settings->addMenu(QIcon(":/icons/key"), tr("&Wallet security"));
-    securityMenu->addAction(encryptWalletAction);
-    securityMenu->addAction(encryptWalletAction);
-    securityMenu->addAction(changePassphraseAction);
-    securityMenu->addAction(unlockWalletAction);
-    securityMenu->addAction(lockWalletAction);
+    settings->addAction(encryptWalletAction);
+    settings->addAction(changePassphraseAction);
     settings->addSeparator();
     settings->addAction(optionsAction);
 
@@ -705,7 +702,7 @@ void BitcoinGUI::changeEvent(QEvent *e)
 #ifndef Q_OS_MAC // Ignored on Mac
     if(e->type() == QEvent::WindowStateChange)
     {
-        if(clientModel)
+        if(clientModel && clientModel->getOptionsModel()->getMinimizeToTray())
         {
             QWindowStateChangeEvent *wsevt = static_cast<QWindowStateChangeEvent*>(e);
             if(!(wsevt->oldState() & Qt::WindowMinimized) && isMinimized())
