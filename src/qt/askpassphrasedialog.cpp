@@ -13,6 +13,7 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QKeyEvent>
 
 AskPassphraseDialog::AskPassphraseDialog(Mode mode, QWidget *parent) :
     QDialog(parent),
