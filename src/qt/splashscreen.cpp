@@ -16,10 +16,10 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     QSplashScreen(pixmap, f)
 {
     // set reference point, paddings
-    //int paddingRight            = 50;
-    //int paddingTop              = 50;
-    //int titleVersionVSpace      = 17;
-    //int titleCopyrightVSpace    = 40;
+    int paddingRight            = 50;
+    int paddingTop              = 50;
+    int titleVersionVSpace      = 17;
+    int titleCopyrightVSpace    = 40;
 
     float fontFactor            = 1.0;
 
@@ -42,7 +42,7 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     }
 
     QPainter pixPaint(&newPixmap);
-    pixPaint.setPen(QColor(200,200,200));
+    pixPaint.setPen(QColor(100,100,100));
 
     // check font size and drawing with
     pixPaint.setFont(QFont(font, 33*fontFactor));
@@ -53,10 +53,10 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
         fontFactor = 0.75;
     }
 
-    //pixPaint.setFont(QFont(font, 33*fontFactor));
-    //fm = pixPaint.fontMetrics();
-    //titleTextWidth  = fm.width(titleText);
-    //pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop,titleText);
+    pixPaint.setFont(QFont(font, 33*fontFactor));
+    fm = pixPaint.fontMetrics();
+    titleTextWidth  = fm.width(titleText);
+    pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop,titleText);
 
     //pixPaint.setFont(QFont(font, 15*fontFactor));
 
