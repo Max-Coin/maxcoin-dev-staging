@@ -10,6 +10,7 @@ CONFIG += thread
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x000000
 
+#DEFINES += HAVE_WORKING_BOOST_SLEEP_FOR=0
 
 #QMAKE_CXXFLAGS_WARN_OFF = -Wno-reserved-user-defined-literal
 QMAKE_CXXFLAGS += -Wno-reserved-user-defined-literal
@@ -39,9 +40,9 @@ QMAKE_CXXFLAGS += -Wno-reserved-user-defined-literal
 #MINIUPNPC_LIB_PATH=C:/deps/miniupnpc-1.6
 #QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.2
 #QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.2/.libs
-BOOST_LIB_SUFFIX=-mt
-BOOST_INCLUDE_PATH=/usr/local/opt/boost@1.59/include
-BOOST_LIB_PATH=/usr/local/opt/boost@1.59/lib
+#BOOST_LIB_SUFFIX=-mt
+BOOST_INCLUDE_PATH=/usr/local/opt/boost@1.60/include
+BOOST_LIB_PATH=/usr/local/opt/boost@1.60/lib
 OPENSSL_INCLUDE_PATH=/usr/local/opt/openssl/include
 OPENSSL_LIB_PATH=/usr/local/opt/openssl/lib
 MINIUPNPC_INCLUDE_PATH=/usr/local/opt/miniupnpc/include
