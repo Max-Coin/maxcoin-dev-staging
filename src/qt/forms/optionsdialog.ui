@@ -278,7 +278,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_Network">
+        <layout class="QHBoxLayout" name="horizontalLayout_1_Network">
          <item>
           <widget class="QLabel" name="proxyIpLabel">
            <property name="text">
@@ -294,6 +294,12 @@
          </item>
          <item>
           <widget class="QValidatedLineEdit" name="proxyIp">
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>140</width>
@@ -320,6 +326,12 @@
          </item>
          <item>
           <widget class="QLineEdit" name="proxyPort">
+           <property name="minimumSize">
+            <size>
+             <width>55</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>55</width>
@@ -352,7 +364,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_Network">
+          <spacer name="horizontalSpacer_1_Network">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -485,6 +497,30 @@
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3_Display">
+         <item>
+          <widget class="QLabel" name="thirdPartyTxUrlsLabel">
+           <property name="toolTip">
+            <string>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</string>
+           </property>
+           <property name="text">
+            <string>Third party transaction URLs</string>
+           </property>
+           <property name="buddy">
+            <cstring>thirdPartyTxUrls</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="thirdPartyTxUrls">
+           <property name="toolTip">
+            <string>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <spacer name="verticalSpacer_Display">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -502,7 +538,66 @@
     </widget>
    </item>
    <item>
+    <widget class="QFrame" name="frame">
+     <layout class="QVBoxLayout" name="verticalLayout_Bottom">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_Bottom">
+        <item>
+         <widget class="QLabel" name="overriddenByCommandLineInfoLabel">
+          <property name="text">
+           <string>Active command-line options that override above options:</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::PlainText</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_Bottom">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="overriddenByCommandLineLabel">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Buttons">
+     <item>
+      <widget class="QPushButton" name="resetButton">
+       <property name="toolTip">
+        <string>Reset all client options to default.</string>
+       </property>
+       <property name="text">
+        <string>&amp;Reset Options</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer_1">
        <property name="orientation">
@@ -518,6 +613,12 @@
      </item>
      <item>
       <widget class="QLabel" name="statusLabel">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <weight>75</weight>
@@ -582,7 +683,7 @@
  <customwidgets>
   <customwidget>
    <class>BitcoinAmountField</class>
-   <extends>QSpinBox</extends>
+   <extends>QLineEdit</extends>
    <header>bitcoinamountfield.h</header>
    <container>1</container>
   </customwidget>
