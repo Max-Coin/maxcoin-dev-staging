@@ -20,7 +20,8 @@ struct AddressTableEntry
 {
     enum Type {
         Sending,
-        Receiving
+        Receiving,
+        Hidden /* QSortFilterProxyModel will filter these out */
     };
 
     Type type;
@@ -47,6 +48,20 @@ struct AddressTableEntryLessThan
         return a < b.address;
     }
 };
+
+/* Determine address type from address purpose */
+static AddressTableEntry::Type translateTransactionType(const QString &strPurpose, bool isMine)
+{
+    AddressTableEntry::Type addressType = AddressTableEntry::Hidden;
+    // "refund" addresses aren't shown, and change addresses aren't in mapAddressBook at all.
+    if (strPurpose == "send")
+        addressType = AddressTableEntry::Sending;
+    else if (strPurpose == "receive")
+        addressType = AddressTableEntry::Receiving;
+    else if (strPurpose == "unknown" || strPurpose == "") // if purpose not set, guess
+        addressType = (isMine ? AddressTableEntry::Receiving : AddressTableEntry::Sending);
+    return addressType;
+}
 
 // Private implementation
 class AddressTablePriv
@@ -75,6 +90,8 @@ public:
             }
         }
         // qLowerBound() and qUpperBound() require our cachedAddressTable list to be sorted in asc order
+        // Even though the map is already sorted this re-sorting step is needed because the originating map
+        // is sorted by binary address, not by base58() address.
         qSort(cachedAddressTable.begin(), cachedAddressTable.end(), AddressTableEntryLessThan());
     }
 
