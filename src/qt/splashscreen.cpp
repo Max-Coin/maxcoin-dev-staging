@@ -8,6 +8,9 @@
 #include "init.h"
 #include "ui_interface.h"
 #include "util.h"
+#ifdef ENABLE_WALLET
+#include "wallet.h"
+#endif
 
 #include <QApplication>
 #include <QPainter>
@@ -15,6 +18,8 @@
 SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     QSplashScreen(pixmap, f)
 {
+    setAutoFillBackground(true);
+
     // set reference point, paddings
     int paddingRight            = 50;
     int paddingTop              = 50;
@@ -24,16 +29,16 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     float fontFactor            = 1.0;
 
     // define text to place
-    QString titleText       = QString(QApplication::applicationName()).replace(QString("-testnet"), QString(""), Qt::CaseSensitive); // cut of testnet, place it as single object further down
+    QString titleText       = tr("Bitcoin Core");
     QString versionText     = QString("Version %1").arg(QString::fromStdString(FormatFullVersion()));
-    QString copyrightText   = QChar(0xA9)+QString(" 2014-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The MaxCoin developers"));
+    QString copyrightText   = QChar(0xA9)+QString(" 2014-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The Bitcoin Core developers"));
     QString testnetAddText  = QString(tr("[testnet]")); // define text to place as single text object
 
     QString font            = "Arial";
 
     // load the bitmap for writing some text over it
     QPixmap newPixmap;
-    if(GetBoolArg("-testnet")) {
+    if(fTestNet) {
         newPixmap     = QPixmap(":/images/splash_testnet");
     }
     else {
@@ -72,9 +77,8 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     pixPaint.setFont(QFont(font, 10*fontFactor));
     pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace,copyrightText);
 
-    // draw testnet string if -testnet is on
-    if(QApplication::applicationName().contains(QString("-testnet"))) {
-        // draw copyright stuff
+    // draw testnet string if testnet is on
+    if(fTestNet) {
         QFont boldFont = QFont(font, 10*fontFactor);
         boldFont.setWeight(QFont::Bold);
         pixPaint.setFont(boldFont);
