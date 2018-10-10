@@ -8,12 +8,17 @@
 #include "main.h"
 #include "optionsmodel.h"
 #include "walletmodel.h"
+
+#include "base58.h"
+#include "init.h"
 #include "wallet.h"
 
 #include <QClipboard>
 
 #include <string>
 #include <vector>
+
+#include <QClipboard>
 
 SignVerifyMessageDialog::SignVerifyMessageDialog(QWidget *parent) :
     QDialog(parent),
@@ -22,21 +27,18 @@ SignVerifyMessageDialog::SignVerifyMessageDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-#if (QT_VERSION >= 0x040700)
-    /* Do not move this to the XML file, Qt before 4.7 will choke on it */
-    ui->addressIn_SM->setPlaceholderText(tr("Enter a MaxCoin address (e.g. mhN8btKtp3HrXgZJwyBakUzALLZ34nA4J)"));
-    ui->pubkeyOut_SM->setPlaceholderText(tr("Click \"Sign Message\" to view public key"));
+#if QT_VERSION >= 0x040700
     ui->signatureOut_SM->setPlaceholderText(tr("Click \"Sign Message\" to generate signature"));
-
-    ui->pubkeyIn_VM->setPlaceholderText(tr("Enter the public key used for signing"));
-    ui->signatureIn_VM->setPlaceholderText(tr("Enter MaxCoin signature"));
+    ui->addressIn_VM->setPlaceholderText(tr("Enter a Bitcoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)"));
 #endif
 
     GUIUtil::setupAddressWidget(ui->addressIn_SM, this);
+    GUIUtil::setupAddressWidget(ui->addressIn_VM, this);
 
     ui->addressIn_SM->installEventFilter(this);
     ui->messageIn_SM->installEventFilter(this);
     ui->signatureOut_SM->installEventFilter(this);
+    ui->addressIn_VM->installEventFilter(this);
     ui->messageIn_VM->installEventFilter(this);
     ui->signatureIn_VM->installEventFilter(this);
 
@@ -97,6 +99,9 @@ void SignVerifyMessageDialog::on_pasteButton_SM_clicked()
 
 void SignVerifyMessageDialog::on_signMessageButton_SM_clicked()
 {
+    if (!model)
+        return;
+
     /* Clear old signature to ensure users don't get confused on error with an old signature displayed */
     ui->signatureOut_SM->clear();
 
@@ -151,8 +156,7 @@ void SignVerifyMessageDialog::on_signMessageButton_SM_clicked()
     ui->statusLabel_SM->setStyleSheet("QLabel { color: green; }");
     ui->statusLabel_SM->setText(QString("<nobr>") + tr("Message signed.") + QString("</nobr>"));
 
-    ui->pubkeyOut_SM->setText(QString::fromStdString(HexStr(vchPubKey)));
-    ui->signatureOut_SM->setText(QString::fromStdString(HexStr(vchSig)));
+    ui->signatureOut_SM->setText(QString::fromStdString(EncodeBase64(&vchSig[0], vchSig.size())));
 }
 
 void SignVerifyMessageDialog::on_copySignatureButton_SM_clicked()
@@ -193,9 +197,9 @@ void SignVerifyMessageDialog::on_verifyMessageButton_VM_clicked()
     CKey key;
     if (!key.SetPubKey(pubkey))
     {
-        ui->pubkeyIn_VM->setValid(false);
+        ui->signatureIn_VM->setValid(false);
         ui->statusLabel_VM->setStyleSheet("QLabel { color: red; }");
-        ui->statusLabel_VM->setText(tr("The public key cannot be added.") + QString(" ") + tr("Please check it and try again."));
+        ui->statusLabel_VM->setText(tr("The signature could not be decoded.") + QString(" ") + tr("Please check the signature and try again."));
         return;
     }
 
@@ -213,9 +217,12 @@ void SignVerifyMessageDialog::on_verifyMessageButton_VM_clicked()
 
 void SignVerifyMessageDialog::on_clearButton_VM_clicked()
 {
+    ui->addressIn_VM->clear();
     ui->signatureIn_VM->clear();
     ui->messageIn_VM->clear();
     ui->statusLabel_VM->clear();
+
+    ui->addressIn_VM->setFocus();
 }
 
 bool SignVerifyMessageDialog::eventFilter(QObject *object, QEvent *event)
