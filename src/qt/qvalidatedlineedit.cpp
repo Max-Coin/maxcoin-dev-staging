@@ -8,7 +8,9 @@
 #include "guiconstants.h"
 
 QValidatedLineEdit::QValidatedLineEdit(QWidget *parent) :
-    QLineEdit(parent), valid(true)
+    QLineEdit(parent),
+    valid(true),
+    checkValidator(0)
 {
     connect(this, SIGNAL(textChanged(QString)), this, SLOT(markValid()));
 }
