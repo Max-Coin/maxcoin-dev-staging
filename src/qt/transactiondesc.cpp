@@ -6,7 +6,9 @@
 
 #include "bitcoinunits.h"
 #include "guiutil.h"
-#include "bitcoinunits.h"
+
+#include "base58.h"
+#include "db.h"
 #include "main.h"
 #include "paymentserver.h"
 #include "transactionrecord.h"
