@@ -14,6 +14,7 @@
 #include "monitoreddatamapper.h"
 #include "optionsmodel.h"
 
+#include "main.h" // for CTransaction::nMinTxFee and MAX_SCRIPTCHECK_THREADS
 #include "netbase.h"
 #include "txdb.h" // for -dbcache defaults
 
@@ -43,6 +44,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     ui->proxyPort->setEnabled(false);
     ui->proxyPort->setValidator(new QIntValidator(1, 65535, this));
 
+    /** SOCKS version is only selectable for default proxy and is always 5 for IPv6 and Tor */
     ui->socksVersion->setEnabled(false);
     ui->socksVersion->addItem("5", 5);
     ui->socksVersion->addItem("4", 4);
@@ -57,7 +59,8 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 
     /* Window elements init */
 #ifdef Q_OS_MAC
-    ui->tabWindow->setVisible(false);
+    /* remove Window tab on Mac */
+    ui->tabWidget->removeTab(ui->tabWidget->indexOf(ui->tabWindow));
 #endif
 
     /* Display elements init */
@@ -89,8 +92,12 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 #endif
         }
     }
+#if QT_VERSION >= 0x040700
+    ui->thirdPartyTxUrls->setPlaceholderText("https://example.com/tx/%s");
+#endif
 
     ui->unit->setModel(new BitcoinUnits(this));
+    ui->transactionFee->setSingleStep(CTransaction::nMinTxFee);
 
     /* Widget-to-option mapper */
     mapper = new MonitoredDataMapper(this);
@@ -102,7 +109,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     /* disable apply button when new data loaded */
     connect(mapper, SIGNAL(currentIndexChanged(int)), this, SLOT(disableApplyButton()));
     /* setup/change UI elements when proxy IP is invalid/valid */
-    connect(this, SIGNAL(proxyIpValid(QValidatedLineEdit *, bool)), this, SLOT(handleProxyIpValid(QValidatedLineEdit *, bool)));
+    connect(this, SIGNAL(proxyIpChecks(QValidatedLineEdit *, int)), this, SLOT(doProxyIpChecks(QValidatedLineEdit *, int)));
 }
 
 OptionsDialog::~OptionsDialog()
@@ -123,14 +130,21 @@ void OptionsDialog::setModel(OptionsModel *model)
         mapper->toFirst();
     }
 
-    /* update the display unit, to not use the default ("MAX") */
+    /* update the display unit, to not use the default ("BTC") */
     updateDisplayUnit();
 
-    /* warn only when language selection changes by user action (placed here so init via mapper doesn't trigger this) */
-    connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning_Lang()));
+    /* warn when one of the following settings changes by user action (placed here so init via mapper doesn't trigger them) */
 
-    /* disable apply button after settings are loaded as there is nothing to save */
-    disableApplyButton();
+    /* Main */
+    connect(ui->databaseCache, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
+    connect(ui->threadsScriptVerif, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
+    /* Wallet */
+    connect(ui->spendZeroConfChange, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    /* Network */
+    connect(ui->connectSocks, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    /* Display */
+    connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning()));
+    connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
 }
 
 void OptionsDialog::setMapper()
@@ -193,24 +207,15 @@ void OptionsDialog::on_resetButton_clicked()
     {
         // confirmation dialog
         QMessageBox::StandardButton btnRetVal = QMessageBox::question(this, tr("Confirm options reset"),
-            tr("Some settings may require a client restart to take effect.") + "<br><br>" + tr("Do you want to proceed?"),
+            tr("Client restart required to activate changes.") + "<br><br>" + tr("Client will be shutdown, do you want to proceed?"),
             QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
 
         if(btnRetVal == QMessageBox::Cancel)
             return;
 
-        disableApplyButton();
-
-        /* disable restart warning messages display */
-        fRestartWarningDisplayed_Lang = fRestartWarningDisplayed_Proxy = true;
-
-        /* reset all options and save the default values (QSettings) */
+        /* reset all options and close GUI */
         model->Reset();
-        mapper->toFirst();
-        mapper->submit();
-
-        /* re-enable restart warning messages display */
-        fRestartWarningDisplayed_Lang = fRestartWarningDisplayed_Proxy = false;
+        QApplication::quit();
     }
 }
 
