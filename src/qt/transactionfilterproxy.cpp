@@ -25,7 +25,8 @@ TransactionFilterProxy::TransactionFilterProxy(QObject *parent) :
     addrPrefix(),
     typeFilter(ALL_TYPES),
     minAmount(0),
-    limitRows(-1)
+    limitRows(-1),
+    showInactive(true)
 {
 }
 
@@ -38,7 +39,7 @@ bool TransactionFilterProxy::filterAcceptsRow(int sourceRow, const QModelIndex &
     QString address = index.data(TransactionTableModel::AddressRole).toString();
     QString label = index.data(TransactionTableModel::LabelRole).toString();
     qint64 amount = llabs(index.data(TransactionTableModel::AmountRole).toLongLong());
-  //  int status = index.data(TransactionTableModel::StatusRole).toInt();
+    int status = index.data(TransactionTableModel::DateRole).toInt();
 
     //if(!showInactive && status == TransactionStatus::Conflicted)
     //    return false;
