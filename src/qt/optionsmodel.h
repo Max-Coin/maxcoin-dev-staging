@@ -25,18 +25,23 @@ public:
     explicit OptionsModel(QObject *parent = 0);
 
     enum OptionID {
-        StartAtStartup,    // bool
-        MinimizeToTray,    // bool
-        MapPortUPnP,       // bool
-        MinimizeOnClose,   // bool
-        ProxyUse,          // bool
-        ProxyIP,           // QString
-        ProxyPort,         // int
-        ProxySocksVersion, // int
-        Fee,               // qint64
-        DisplayUnit,       // MaxCoinUnits::Unit
-        DisplayAddresses,  // bool
-        Language,          // QString
+        StartAtStartup,         // bool
+        MinimizeToTray,         // bool
+        MapPortUPnP,            // bool
+        MinimizeOnClose,        // bool
+        ProxyUse,               // bool
+        ProxyIP,                // QString
+        ProxyPort,              // int
+        ProxySocksVersion,      // int
+        Fee,                    // qint64
+        DisplayUnit,            // BitcoinUnits::Unit
+        DisplayAddresses,       // bool
+        ThirdPartyTxUrls,       // QString
+        Language,               // QString
+        CoinControlFeatures,    // bool
+        ThreadsScriptVerif,     // int
+        DatabaseCache,          // int
+        SpendZeroConfChange,    // bool
         OptionIDRowCount,
     };
 
@@ -56,17 +61,34 @@ public:
     bool getMinimizeOnClose() { return fMinimizeOnClose; }
     int getDisplayUnit() { return nDisplayUnit; }
     bool getDisplayAddresses() { return bDisplayAddresses; }
-    QString getLanguage() { return language; }
+    QString getThirdPartyTxUrls() { return strThirdPartyTxUrls; }
+    bool getProxySettings(QNetworkProxy& proxy) const;
+    bool getCoinControlFeatures() { return fCoinControlFeatures; }
+    const QString& getOverriddenByCommandLine() { return strOverriddenByCommandLine; }
+
+    /* Restart flag helper */
+    void setRestartRequired(bool fRequired);
+    bool isRestartRequired();
 
 private:
-    int nDisplayUnit;
-    bool bDisplayAddresses;
+    /* Qt-only settings */
     bool fMinimizeToTray;
     bool fMinimizeOnClose;
     QString language;
+    int nDisplayUnit;
+    bool bDisplayAddresses;
+    QString strThirdPartyTxUrls;
+    bool fCoinControlFeatures;
+    /* settings that were overriden by command-line */
+    QString strOverriddenByCommandLine;
+
+    /// Add option to list of GUI options overridden through command line/config file
+    void addOverriddenOption(const std::string &option);
 
 signals:
     void displayUnitChanged(int unit);
+    void transactionFeeChanged(qint64);
+    void coinControlFeaturesChanged(bool);
 };
 
 #endif // OPTIONSMODEL_H
