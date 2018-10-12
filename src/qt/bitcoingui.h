@@ -5,9 +5,14 @@
 #ifndef BITCOINGUI_H
 #define BITCOINGUI_H
 
+#if defined(HAVE_CONFIG_H)
+#include "bitcoin-config.h"
+#endif
+
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QMap>
+#include <QSystemTrayIcon>
 
 class TransactionTableModel;
 class WalletFrame;
@@ -23,10 +28,14 @@ class SendCoinsDialog;
 class SignVerifyMessageDialog;
 class Notificator;
 class RPCConsole;
+class SendCoinsRecipient;
+class WalletFrame;
+class WalletModel;
 
 class CWallet;
 
 QT_BEGIN_NAMESPACE
+class QAction;
 class QLabel;
 class QModelIndex;
 class QProgressBar;
@@ -38,7 +47,7 @@ class QAction;
 QT_END_NAMESPACE
 
 /**
-  MaxCoin GUI main class. This class represents the main window of the MaxCoin UI. It communicates with both the client and
+  Bitcoin GUI main class. This class represents the main window of the Bitcoin UI. It communicates with both the client and
   wallet models to give the user an up-to-date view of the current core state.
 */
 class BitcoinGUI : public QMainWindow
@@ -56,7 +65,7 @@ public:
     */
     void setClientModel(ClientModel *clientModel);
     /** Set the wallet model.
-        The wallet model represents a maxcoin wallet, and offers access to the list of transactions, address book and sending
+        The wallet model represents a bitcoin wallet, and offers access to the list of transactions, address book and sending
         functionality.
     */
 
@@ -122,6 +131,7 @@ private:
     QMovie *syncIconMovie;
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
+    int spinnerFrame;
 
     /** Create the main UI actions. */
     void createActions();
