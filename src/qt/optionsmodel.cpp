@@ -12,10 +12,17 @@
 #include "guiutil.h"
 
 #include "init.h"
+#include "main.h"
+#include "net.h"
+#include "txdb.h" // for -dbcache defaults
+#ifdef ENABLE_WALLET
+#include "wallet.h"
 #include "walletdb.h"
+#endif
 
-
+#include <QNetworkProxy>
 #include <QSettings>
+#include <QStringList>
 
 OptionsModel::OptionsModel(QObject *parent) :
     QAbstractListModel(parent)
