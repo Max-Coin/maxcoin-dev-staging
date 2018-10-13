@@ -15,10 +15,17 @@
 #include "editaddressdialog.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
-#include "guiutil.h"
+#include "transactiondescdialog.h"
+#include "transactionfilterproxy.h"
+#include "transactionrecord.h"
+#include "transactiontablemodel.h"
+#include "walletmodel.h"
 
-#include <QScrollBar>
+#include "ui_interface.h"
+
 #include <QComboBox>
+#include <QDateTimeEdit>
+#include <QDesktopServices>
 #include <QDoubleValidator>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -29,8 +36,13 @@
 #include <QPoint>
 #include <QMenu>
 #include <QLabel>
-#include <QDateTimeEdit>
+#include <QLineEdit>
+#include <QMenu>
+#include <QPoint>
+#include <QScrollBar>
+#include <QSignalMapper>
 #include <QTableView>
+#include <QUrl>
 #include <QVBoxLayout>
 
 TransactionView::TransactionView(QWidget *parent) :
@@ -172,6 +184,7 @@ void TransactionView::setModel(WalletModel *model)
 
         transactionProxyModel->setSortRole(Qt::EditRole);
 
+        transactionView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         transactionView->setModel(transactionProxyModel);
         transactionView->setAlternatingRowColors(true);
         transactionView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -273,12 +286,12 @@ void TransactionView::changedAmount(const QString &amount)
 void TransactionView::exportClicked()
 {
     // CSV is currently the only supported format
-    QString filename = GUIUtil::getSaveFileName(
-            this,
-            tr("Export Transaction Data"), QString(),
-            tr("Comma separated file (*.csv)"));
+    QString filename = GUIUtil::getSaveFileName(this,
+        tr("Export Transaction History"), QString(),
+        tr("Comma separated file (*.csv)"), NULL);
 
-    if (filename.isNull()) return;
+    if (filename.isNull())
+        return;
 
     CSVModelWriter writer(filename);
 
@@ -354,10 +367,10 @@ void TransactionView::editLabel()
             // Determine type of address, launch appropriate editor dialog type
             QString type = modelIdx.data(AddressTableModel::TypeRole).toString();
 
-            EditAddressDialog dlg(type==AddressTableModel::Receive
-                                         ? EditAddressDialog::EditReceivingAddress
-                                         : EditAddressDialog::EditSendingAddress,
-                                  this);
+            EditAddressDialog dlg(
+                type == AddressTableModel::Receive
+                ? EditAddressDialog::EditReceivingAddress
+                : EditAddressDialog::EditSendingAddress, this);
             dlg.setModel(addressBook);
             dlg.loadRow(idx);
             dlg.exec();
@@ -366,7 +379,7 @@ void TransactionView::editLabel()
         {
             // Add sending address
             EditAddressDialog dlg(EditAddressDialog::NewSendingAddress,
-                                  this);
+                this);
             dlg.setModel(addressBook);
             dlg.setAddress(address);
             dlg.exec();
