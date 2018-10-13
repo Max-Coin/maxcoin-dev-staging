@@ -21,9 +21,8 @@ class QFrame;
 class QLineEdit;
 class QMenu;
 class QModelIndex;
-class QMenu;
-class QFrame;
-class QDateTimeEdit;
+class QSignalMapper;
+class QTableView;
 QT_END_NAMESPACE
 
 /** Widget showing the transaction list for a wallet, including a filter row.
@@ -48,6 +47,14 @@ public:
         LastMonth,
         ThisYear,
         Range
+    };
+
+    enum ColumnWidths {
+        STATUS_COLUMN_WIDTH = 23,
+        DATE_COLUMN_WIDTH = 120,
+        TYPE_COLUMN_WIDTH = 120,
+        AMOUNT_MINIMUM_COLUMN_WIDTH = 120,
+        MINIMUM_COLUMN_WIDTH = 23
     };
 
 private:
@@ -80,6 +87,9 @@ private slots:
 
 signals:
     void doubleClicked(const QModelIndex&);
+
+    /**  Fired when a message should be reported to the user */
+    void message(const QString &title, const QString &message, unsigned int style);
 
 public slots:
     void chooseDate(int idx);
