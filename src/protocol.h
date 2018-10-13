@@ -10,10 +10,12 @@
 #ifndef __INCLUDED_PROTOCOL_H__
 #define __INCLUDED_PROTOCOL_H__
 
+#include "chainparams.h"
 #include "netbase.h"
 #include "serialize.h"
 #include "uint256.h"
 
+#include <stdint.h>
 #include <string>
 
 extern bool fTestNet;
@@ -50,9 +52,8 @@ class CMessageHeader
             )
 
     // TODO: make private (improves encapsulation)
-    public:
+   public:
         enum {
-            MESSAGE_START_SIZE=sizeof(::pchMessageStart),
             COMMAND_SIZE=12,
             MESSAGE_SIZE_SIZE=sizeof(int),
             CHECKSUM_SIZE=sizeof(int),
