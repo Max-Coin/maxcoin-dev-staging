@@ -13,16 +13,21 @@
 #include "main.h"
 #include "init.h" // for pwalletMain
 #include "checkpoints.h"
+#include "main.h"
+#include "net.h"
 #include "ui_interface.h"
 
+#include <stdint.h>
+
 #include <QDateTime>
+#include <QDebug>
 #include <QTimer>
 
-static const int64 nClientStartupTime = GetTime();
+static const int64_t nClientStartupTime = GetTime();
 
 ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :
     QObject(parent), optionsModel(optionsModel),
-    cachedNumBlocks(0), cachedNumBlocksOfPeers(0),
+    cachedNumBlocks(0),
     cachedReindexing(0), cachedImporting(0),
     numBlocksAtStartup(-1), pollTimer(0)
 {
@@ -33,6 +38,7 @@ ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :
     pollTimer->setInterval(MODEL_UPDATE_DELAY);
     pollTimer->start();
     connect(pollTimer, SIGNAL(timeout()), this, SLOT(updateTimer()));
+    pollTimer->start(MODEL_UPDATE_DELAY);
 
     subscribeToCoreSignals();
 }
