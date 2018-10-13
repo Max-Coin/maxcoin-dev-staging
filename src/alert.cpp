@@ -55,8 +55,8 @@ std::string CUnsignedAlert::ToString() const
     return strprintf(
         "CAlert(\n"
         "    nVersion     = %d\n"
-        "    nRelayUntil  = %"PRI64d"\n"
-        "    nExpiration  = %"PRI64d"\n"
+        "    nRelayUntil  = %d\n"
+        "    nExpiration  = %d\n"
         "    nID          = %d\n"
         "    nCancel      = %d\n"
         "    setCancel    = %s\n"
@@ -105,7 +105,7 @@ uint256 CAlert::GetHash() const
 
 bool CAlert::IsInEffect() const
 {
-    return false;
+    return (GetAdjustedTime() < nExpiration);
 }
 
 bool CAlert::Cancels(const CAlert& alert) const
@@ -117,12 +117,15 @@ bool CAlert::Cancels(const CAlert& alert) const
 
 bool CAlert::AppliesTo(int nVersion, std::string strSubVerIn) const
 {
-    return false;
+    // TODO: rework for client-version-embedded-in-strSubVer ?
+    return (IsInEffect() &&
+            nMinVer <= nVersion && nVersion <= nMaxVer &&
+            (setSubVer.empty() || setSubVer.count(strSubVerIn)));
 }
 
 bool CAlert::AppliesToMe() const
 {
-    return false;
+    return AppliesTo(PROTOCOL_VERSION, FormatSubVersion(CLIENT_NAME, CLIENT_VERSION, std::vector<std::string>()));
 }
 
 bool CAlert::RelayTo(CNode* pnode) const
