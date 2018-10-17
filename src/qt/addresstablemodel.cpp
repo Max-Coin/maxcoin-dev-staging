@@ -112,7 +112,7 @@ public:
         case CT_NEW:
             if(inModel)
             {
-                OutputDebugStringF("Warning: AddressTablePriv::updateEntry: Got CT_NOW, but entry is already in model\n");
+                qWarning() << "AddressTablePriv::updateEntry : Warning: Got CT_NEW, but entry is already in model";
                 break;
             }
             parent->beginInsertRows(QModelIndex(), lowerIndex, lowerIndex);
@@ -122,7 +122,7 @@ public:
         case CT_UPDATED:
             if(!inModel)
             {
-                OutputDebugStringF("Warning: AddressTablePriv::updateEntry: Got CT_UPDATED, but entry is not in model\n");
+                qWarning() << "AddressTablePriv::updateEntry : Warning: Got CT_UPDATED, but entry is not in model";
                 break;
             }
             lower->type = newEntryType;
@@ -132,7 +132,7 @@ public:
         case CT_DELETED:
             if(!inModel)
             {
-                OutputDebugStringF("Warning: AddressTablePriv::updateEntry: Got CT_DELETED, but entry is not in model\n");
+                qWarning() << "AddressTablePriv::updateEntry : Warning: Got CT_DELETED, but entry is not in model";
                 break;
             }
             parent->beginRemoveRows(QModelIndex(), lowerIndex, upperIndex-1);
@@ -237,7 +237,7 @@ bool AddressTableModel::setData(const QModelIndex &index, const QVariant &value,
     if(!index.isValid())
         return false;
     AddressTableEntry *rec = static_cast<AddressTableEntry*>(index.internalPointer());
-
+    std::string strPurpose = (rec->type == AddressTableEntry::Sending ? "send" : "receive");
     editStatus = OK;
 
     if(role == Qt::EditRole)
@@ -257,13 +257,13 @@ bool AddressTableModel::setData(const QModelIndex &index, const QVariant &value,
             // Do nothing, if old address == new address
             if(CBitcoinAddress(rec->address.toStdString()) == CBitcoinAddress(value.toString().toStdString()))
             {
-                editStatus = NO_CHANGES;
+                editStatus = INVALID_ADDRESS;
                 return false;
             }
             // Refuse to set invalid address, set error status and return false
             else if(!walletModel->validateAddress(value.toString()))
             {
-                editStatus = INVALID_ADDRESS;
+                editStatus = NO_CHANGES;
                 return false;
             }
             // Check for duplicate addresses to prevent accidental deletion of addresses, if you try
@@ -295,7 +295,7 @@ QVariant AddressTableModel::headerData(int section, Qt::Orientation orientation,
 {
     if(orientation == Qt::Horizontal)
     {
-        if(role == Qt::DisplayRole)
+        if(role == Qt::DisplayRole && section < columns.size())
         {
             return columns[section];
         }
@@ -375,7 +375,7 @@ QString AddressTableModel::addRow(const QString &type, const QString &label, con
             return QString();
         }
         CPubKey newKey;
-        if(!wallet->GetKeyFromPool(newKey, true))
+        if(!wallet->GetKeyFromPool(newKey))
         {
             editStatus = KEY_GENERATION_FAILURE;
             return QString();
