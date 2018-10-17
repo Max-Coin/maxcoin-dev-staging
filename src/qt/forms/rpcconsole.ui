@@ -113,14 +113,17 @@
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_12">
+        <widget class="QLabel" name="label_berkeleyDBVersion">
          <property name="text">
-          <string>Build date</string>
+          <string>Using BerkeleyDB version</string>
+         </property>
+         <property name="indent">
+          <number>10</number>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QLabel" name="buildDate">
+        <widget class="QLabel" name="berkeleyDBVersion">
          <property name="cursor">
           <cursorShape>IBeamCursor</cursorShape>
          </property>
@@ -136,14 +139,14 @@
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QLabel" name="label_13">
+        <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Startup time</string>
+          <string>Build date</string>
          </property>
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QLabel" name="startupTime">
+        <widget class="QLabel" name="buildDate">
          <property name="cursor">
           <cursorShape>IBeamCursor</cursorShape>
          </property>
@@ -159,6 +162,29 @@
         </widget>
        </item>
        <item row="6" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Startup time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="startupTime">
+         <property name="cursor">
+          <cursorShape>IBeamCursor</cursorShape>
+         </property>
+         <property name="text">
+          <string>N/A</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
         <widget class="QLabel" name="label_11">
          <property name="font">
           <font>
@@ -171,10 +197,10 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_7">
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>Number of connections</string>
+          <string>Name</string>
          </property>
         </widget>
        </item>
@@ -194,10 +220,10 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_8">
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>On testnet</string>
+          <string>Number of connections</string>
          </property>
         </widget>
        </item>
@@ -211,7 +237,7 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
+       <item row="10" column="0">
         <widget class="QLabel" name="label_10">
          <property name="font">
           <font>
@@ -224,7 +250,7 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="0">
+       <item row="11" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Current number of blocks</string>
@@ -322,7 +348,7 @@
        <item row="15" column="0">
         <widget class="QPushButton" name="openDebugLogfileButton">
          <property name="toolTip">
-          <string>Open the MaxCoin debug log file from the current data directory. This can take a few seconds for large log files.</string>
+          <string>Open the Bitcoin debug log file from the current data directory. This can take a few seconds for large log files.</string>
          </property>
          <property name="text">
           <string>&amp;Open</string>
@@ -449,6 +475,17 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TrafficGraphWidget</class>
+   <extends>QWidget</extends>
+   <header>trafficgraphwidget.h</header>
+   <container>1</container>
+   <slots>
+    <slot>clear()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../bitcoin.qrc"/>
  </resources>
