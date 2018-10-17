@@ -4,13 +4,12 @@
 
 #include "bitcoinamountfield.h"
 
-#include "qvaluecombobox.h"
 #include "bitcoinunits.h"
 #include "guiconstants.h"
 #include "qvaluecombobox.h"
 
 #include <QApplication>
-#include <QDoubleSpinBox>
+#include <QAbstractSpinBox>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QDoubleSpinBox>
@@ -24,10 +23,8 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent):
 
     amount = new QDoubleSpinBox(this);
     amount->setLocale(QLocale::c());
-    amount->setDecimals(8);
     amount->installEventFilter(this);
     amount->setMaximumWidth(170);
-    amount->setSingleStep(0.001);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(amount);
@@ -43,7 +40,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent):
     setFocusProxy(amount);
 
     // If one if the widgets changes, the combined content changes as well
-    connect(amount, SIGNAL(valueChanged(QString)), this, SIGNAL(textChanged()));
+    connect(amount, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
     connect(unit, SIGNAL(currentIndexChanged(int)), this, SLOT(unitChanged(int)));
 
     // Set default based on configuration
