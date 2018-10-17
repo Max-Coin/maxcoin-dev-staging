@@ -254,6 +254,19 @@
          </layout>
         </widget>
        </item>
+       <item>
+        <spacer name="verticalSpacer_Wallet">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tabNetwork">
@@ -272,12 +285,22 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="connectSocks">
+        <widget class="QCheckBox" name="allowIncoming">
          <property name="toolTip">
-          <string>Connect to the Bitcoin network through a SOCKS proxy.</string>
+          <string>Accept connections from outside</string>
          </property>
          <property name="text">
-          <string>&amp;Connect through SOCKS proxy (default proxy):</string>
+          <string>Allow incoming connections</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="connectSocks">
+         <property name="toolTip">
+          <string>Connect to the Bitcoin network through a SOCKS5 proxy.</string>
+         </property>
+         <property name="text">
+          <string>&amp;Connect through SOCKS5 proxy (default proxy):</string>
          </property>
         </widget>
        </item>
