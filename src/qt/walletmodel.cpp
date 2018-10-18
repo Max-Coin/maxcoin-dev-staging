@@ -6,8 +6,8 @@
 
 #include "addresstablemodel.h"
 #include "guiconstants.h"
+
 #include "transactiontablemodel.h"
-#include "optionsmodel.h"
 
 #include "base58.h"
 #include "db.h"
