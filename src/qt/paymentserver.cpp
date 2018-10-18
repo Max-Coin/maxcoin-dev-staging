@@ -9,24 +9,46 @@
 #include "guiutil.h"
 #include "optionsmodel.h"
 
+#include "base58.h"
+#include "chainparams.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "wallet.h"
+
+#include <cstdlib>
+
+#include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 
 #include <QApplication>
 #include <QByteArray>
 #include <QDataStream>
+#include <QDateTime>
 #include <QDebug>
+#include <QFile>
 #include <QFileOpenEvent>
 #include <QHash>
+#include <QList>
 #include <QLocalServer>
 #include <QLocalSocket>
+#include <QNetworkAccessManager>
+#include <QNetworkProxy>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QSslCertificate>
+#include <QSslError>
+#include <QSslSocket>
 #include <QStringList>
+#include <QTextDocument>
 
 #if QT_VERSION < 0x050000
 #include <QUrl>
+#else
+#include <QUrlQuery>
 #endif
 
 using namespace boost;
+using namespace std;
 
 const int BITCOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
 const QString BITCOIN_IPC_PREFIX("maxcoin:");
@@ -43,14 +65,14 @@ static QString ipcServerName()
     // Append a simple hash of the datadir
     // Note that GetDataDir(true) returns a different path
     // for -testnet versus main net
-    QString ddir(GetDataDir(true).string().c_str());
+    QString ddir(QString::fromStdString(GetDataDir(true).string()));
     name.append(QString::number(qHash(ddir)));
 
     return name;
 }
 
 //
-// This stores payment requests received before
+// We store payment URIs and requests received before
 // the main GUI window is up and ready to ask the user
 // to send payment.
 //
@@ -79,7 +101,11 @@ bool PaymentServer::ipcSendCommandLine()
         QLocalSocket* socket = new QLocalSocket();
         socket->connectToServer(ipcServerName(), QIODevice::WriteOnly);
         if (!socket->waitForConnected(BITCOIN_IPC_CONNECT_TIMEOUT))
+        {
+            delete socket;
+            socket = NULL;
             return false;
+        }
 
         QByteArray block;
         QDataStream out(&block, QIODevice::WriteOnly);
@@ -91,9 +117,11 @@ bool PaymentServer::ipcSendCommandLine()
 
         socket->waitForBytesWritten(BITCOIN_IPC_CONNECT_TIMEOUT);
         socket->disconnectFromServer();
+
         delete socket;
         fResult = true;
     }
+
     return fResult;
 }
 
