@@ -64,6 +64,12 @@ void SignVerifyMessageDialog::setAddress_SM(const QString &address)
     ui->messageIn_SM->setFocus();
 }
 
+void SignVerifyMessageDialog::setAddress_VM(const QString &address)
+{
+    ui->addressIn_VM->setText(address);
+    ui->messageIn_VM->setFocus();
+}
+
 void SignVerifyMessageDialog::showTab_SM(bool fShow)
 {
     ui->tabWidget->setCurrentIndex(0);
