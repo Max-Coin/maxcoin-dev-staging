@@ -10,11 +10,6 @@
 #include "guiutil.h"
 #include "optionsmodel.h"
 #include "walletmodel.h"
-#include "bitcoinunits.h"
-#include "addressbookpage.h"
-#include "walletmodel.h"
-#include "optionsmodel.h"
-#include "addresstablemodel.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -37,7 +32,16 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
     setFocusPolicy(Qt::TabFocus);
     setFocusProxy(ui->payTo);
 
+    // normal bitcoin address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
+    // just a label for displaying bitcoin address(es)
+    ui->payTo_is->setFont(GUIUtil::bitcoinAddressFont());
+
+    // Connect signals
+    connect(ui->payAmount, SIGNAL(valueChanged()), this, SIGNAL(payAmountChanged()));
+    connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
+    connect(ui->deleteButton_is, SIGNAL(clicked()), this, SLOT(deleteClicked()));
+    connect(ui->deleteButton_s, SIGNAL(clicked()), this, SLOT(deleteClicked()));
 }
 
 SendCoinsEntry::~SendCoinsEntry()
@@ -78,7 +82,7 @@ void SendCoinsEntry::setModel(WalletModel *model)
 {
     this->model = model;
 
-    if(model && model->getOptionsModel())
+    if (model && model->getOptionsModel())
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
 
     clear();
@@ -91,11 +95,23 @@ void SendCoinsEntry::setRemoveEnabled(bool enabled)
 
 void SendCoinsEntry::clear()
 {
+    // clear UI elements for normal payment
     ui->payTo->clear();
     ui->addAsLabel->clear();
     ui->payAmount->clear();
-    ui->payTo->setFocus();
-    // update the display unit, to not use the default ("MAX")
+    ui->messageTextLabel->clear();
+    ui->messageTextLabel->hide();
+    ui->messageLabel->hide();
+    // clear UI elements for insecure payment request
+    ui->payTo_is->clear();
+    ui->memoTextLabel_is->clear();
+    ui->payAmount_is->clear();
+    // clear UI elements for secure payment request
+    ui->payTo_s->clear();
+    ui->memoTextLabel_s->clear();
+    ui->payAmount_s->clear();
+
+    // update the display unit, to not use the default ("BTC")
     updateDisplayUnit();
 }
 
@@ -106,25 +122,25 @@ void SendCoinsEntry::on_deleteButton_clicked()
 
 bool SendCoinsEntry::validate()
 {
+    if (!model)
+        return false;
+
     // Check input validity
     bool retval = true;
 
     if(!ui->payAmount->validate())
     {
+        ui->payTo->setValid(false);
         retval = false;
     }
-    else
+
+    if (!ui->payAmount->validate())
     {
-        if(ui->payAmount->value() <= 0)
-        {
-            // Cannot send 0 coins or less
-            ui->payAmount->setValid(false);
-            retval = false;
-        }
+        retval = false;
     }
 
-    if(!ui->payTo->hasAcceptableInput() ||
-       (model && !model->validateAddress(ui->payTo->text())))
+    // Sending a zero amount is invalid
+    if (ui->payAmount->value(0) <= 0)
     {
         ui->payTo->setValid(false);
         retval = false;
@@ -169,7 +185,7 @@ void SendCoinsEntry::setAddress(const QString &address)
 
 bool SendCoinsEntry::isClear()
 {
-    return ui->payTo->text().isEmpty();
+    return ui->payTo->text().isEmpty() && ui->payTo_is->text().isEmpty() && ui->payTo_s->text().isEmpty();
 }
 
 void SendCoinsEntry::setFocus()
@@ -183,5 +199,7 @@ void SendCoinsEntry::updateDisplayUnit()
     {
         // Update payAmount with the current unit
         ui->payAmount->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
+        ui->payAmount_is->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
+        ui->payAmount_s->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
     }
 }
