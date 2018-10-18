@@ -2,14 +2,18 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef OPTIONSDIALOG_H
-#define OPTIONSDIALOG_H
+#ifndef BITCOIN_QT_OPTIONSDIALOG_H
+#define BITCOIN_QT_OPTIONSDIALOG_H
 
 #include <QDialog>
 
 class MonitoredDataMapper;
 class OptionsModel;
 class QValidatedLineEdit;
+
+QT_BEGIN_NAMESPACE
+class QDataWidgetMapper;
+QT_END_NAMESPACE
 
 namespace Ui {
 class OptionsDialog;
@@ -63,4 +67,4 @@ private:
     bool fProxyIpValid;
 };
 
-#endif // OPTIONSDIALOG_H
+#endif // BITCOIN_QT_OPTIONSDIALOG_H
