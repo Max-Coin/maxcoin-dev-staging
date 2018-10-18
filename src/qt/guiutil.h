@@ -2,24 +2,29 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef GUIUTIL_H
-#define GUIUTIL_H
+#ifndef BITCOIN_QT_GUIUTIL_H
+#define BITCOIN_QT_GUIUTIL_H
 
 #include <QMessageBox>
 #include <QObject>
+#include <QProgressBar>
 #include <QString>
-#include <QObject>
-#include <QMessageBox>
+#include <QTableView>
 
+#include <boost/filesystem.hpp>
+
+class QValidatedLineEdit;
 class SendCoinsRecipient;
 
 QT_BEGIN_NAMESPACE
+class QAbstractItemView;
+class QDateTime;
 class QFont;
 class QLineEdit;
 class QWidget;
 class QDateTime;
 class QUrl;
-class QAbstractItemView;
+class QWidget;
 QT_END_NAMESPACE
 
 /** Utility functions used by the MaxCoin Qt UI.
