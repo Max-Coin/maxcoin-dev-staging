@@ -2,8 +2,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RECENTREQUESTSTABLEMODEL_H
-#define RECENTREQUESTSTABLEMODEL_H
+#ifndef BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H
+#define BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H
 
 #include "walletmodel.h"
 
@@ -99,4 +99,4 @@ private:
     int64_t nReceiveRequestsMaxId;
 };
 
-#endif
+#endif // BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H
