@@ -2,10 +2,13 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOINAMOUNTFIELD_H
-#define BITCOINAMOUNTFIELD_H
+#ifndef BITCOIN_QT_BITCOINAMOUNTFIELD_H
+#define BITCOIN_QT_BITCOINAMOUNTFIELD_H
+
 
 #include <QWidget>
+
+class AmountSpinBox;
 
 QT_BEGIN_NAMESPACE
 class QDoubleSpinBox;
@@ -43,6 +46,9 @@ public:
     /** Make field empty and ready for new input. */
     void clear();
 
+    /** Enable/Disable. */
+    void setEnabled(bool fEnabled);
+
     /** Qt messes up the tab chain by default in some cases (issue https://bugreports.qt-project.org/browse/QTBUG-10907),
         in these cases we have to set it up manually.
     */
@@ -69,4 +75,4 @@ private slots:
 
 };
 
-#endif // BITCOINAMOUNTFIELD_H
+#endif // BITCOIN_QT_BITCOINAMOUNTFIELD_H
