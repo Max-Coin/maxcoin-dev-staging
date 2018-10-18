@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "bitcoin-config.h"
+#include "config/bitcoin-config.h"
 #endif
 
 #include "optionsmodel.h"
@@ -15,6 +15,7 @@
 #include "main.h"
 #include "net.h"
 #include "txdb.h" // for -dbcache defaults
+
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #include "walletdb.h"
