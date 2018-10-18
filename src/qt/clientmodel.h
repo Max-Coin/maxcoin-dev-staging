@@ -2,13 +2,14 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef CLIENTMODEL_H
-#define CLIENTMODEL_H
+#ifndef BITCOIN_QT_CLIENTMODEL_H
+#define BITCOIN_QT_CLIENTMODEL_H
 
 #include <QObject>
 
 class AddressTableModel;
 class OptionsModel;
+class PeerTableModel;
 class TransactionTableModel;
 
 class CWallet;
@@ -25,7 +26,14 @@ enum BlockSource {
     BLOCK_SOURCE_NETWORK
 };
 
-/** Model for MaxCoin network client. */
+enum NumConnections {
+    CONNECTIONS_NONE = 0,
+    CONNECTIONS_IN   = (1U << 0),
+    CONNECTIONS_OUT  = (1U << 1),
+    CONNECTIONS_ALL  = (CONNECTIONS_IN | CONNECTIONS_OUT),
+};
+
+/** Model for Bitcoin network client. */
 class ClientModel : public QObject
 {
     Q_OBJECT
@@ -41,6 +49,7 @@ public:
     };
 
     OptionsModel *getOptionsModel();
+    PeerTableModel *getPeerTableModel();
 
     int getNumConnections() const;
     int getNumBlocks() const;
@@ -127,10 +136,13 @@ signals:
     //! Asynchronous message notification
     void message(const QString &title, const QString &message, unsigned int style);
 
+    // Show progress dialog e.g. for verifychain
+    void showProgress(const QString &title, int nProgress);
+
 public slots:
     void updateTimer();
     void updateNumConnections(int numConnections);
     void updateAlert(const QString &hash, int status);
 };
 
-#endif // CLIENTMODEL_H
+#endif // BITCOIN_QT_CLIENTMODEL_H
