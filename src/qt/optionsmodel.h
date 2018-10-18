@@ -2,8 +2,9 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef OPTIONSMODEL_H
-#define OPTIONSMODEL_H
+#ifndef BITCOIN_QT_OPTIONSMODEL_H
+#define BITCOIN_QT_OPTIONSMODEL_H
+
 
 #include <QAbstractListModel>
 
@@ -42,6 +43,7 @@ public:
         ThreadsScriptVerif,     // int
         DatabaseCache,          // int
         SpendZeroConfChange,    // bool
+        Listen,                 // bool
         OptionIDRowCount,
     };
 
@@ -54,6 +56,8 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
     bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    /** Updates current unit in memory, settings and emits displayUnitChanged(newUnit) signal */
+    void setDisplayUnit(const QVariant &value);
 
     /* Explicit getters */
     qint64 getTransactionFee();
@@ -91,4 +95,4 @@ signals:
     void coinControlFeaturesChanged(bool);
 };
 
-#endif // OPTIONSMODEL_H
+#endif // BITCOIN_QT_OPTIONSMODEL_H
