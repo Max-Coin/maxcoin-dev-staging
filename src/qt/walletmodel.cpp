@@ -10,12 +10,21 @@
 #include "optionsmodel.h"
 
 #include "base58.h"
+#include "db.h"
+#include "keystore.h"
+#include "main.h"
+#include "sync.h"
 #include "ui_interface.h"
 #include "wallet.h"
 #include "walletdb.h" // for BackupWallet
 
+#include <stdint.h>
+
+#include <QDebug>
 #include <QSet>
 #include <QTimer>
+
+using namespace std;
 
 WalletModel::WalletModel(CWallet *wallet, OptionsModel *optionsModel, QObject *parent) :
     QObject(parent), wallet(wallet), optionsModel(optionsModel), addressTableModel(0),
