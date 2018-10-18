@@ -7,6 +7,7 @@
 
 #include "addresstablemodel.h"
 #include "bitcoinunits.h"
+#include "clientmodel.h"
 #include "coincontroldialog.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
@@ -19,6 +20,7 @@
 
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QSettings>
 #include <QTextDocument>
 #include <QScrollBar>
 
@@ -54,7 +56,7 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     QAction *clipboardAfterFeeAction = new QAction(tr("Copy after fee"), this);
     QAction *clipboardBytesAction = new QAction(tr("Copy bytes"), this);
     QAction *clipboardPriorityAction = new QAction(tr("Copy priority"), this);
-    QAction *clipboardLowOutputAction = new QAction(tr("Copy low output"), this);
+    QAction *clipboardLowOutputAction = new QAction(tr("Copy dust"), this);
     QAction *clipboardChangeAction = new QAction(tr("Copy change"), this);
     connect(clipboardQuantityAction, SIGNAL(triggered()), this, SLOT(coinControlClipboardQuantity()));
     connect(clipboardAmountAction, SIGNAL(triggered()), this, SLOT(coinControlClipboardAmount()));
