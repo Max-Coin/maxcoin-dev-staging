@@ -2,8 +2,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef WALLETFRAME_H
-#define WALLETFRAME_H
+#ifndef BITCOIN_QT_WALLETFRAME_H
+#define BITCOIN_QT_WALLETFRAME_H
 
 #include <QFrame>
 #include <QMap>
@@ -19,7 +19,7 @@ class WalletFrame : public QFrame
     Q_OBJECT
 
 public:
-    explicit WalletFrame(BitcoinGUI *_gui);
+    explicit WalletFrame(BitcoinGUI *_gui = 0);
     ~WalletFrame();
 
     void setClientModel(ClientModel *clientModel);
@@ -75,4 +75,4 @@ public slots:
     void setEncryptionStatus();
 };
 
-#endif // WALLETFRAME_H
+#endif // BITCOIN_QT_WALLETFRAME_H
