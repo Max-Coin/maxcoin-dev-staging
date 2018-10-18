@@ -2,17 +2,31 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef WALLETMODEL_H
-#define WALLETMODEL_H
+#ifndef BITCOIN_QT_WALLETMODEL_H
+#define BITCOIN_QT_WALLETMODEL_H
 
 #include <QObject>
 
 #include "allocators.h" /* for SecureString */
 
-class OptionsModel;
+#include <map>
+#include <vector>
+
+#include <QObject>
+
 class AddressTableModel;
+class OptionsModel;
+class RecentRequestsTableModel;
 class TransactionTableModel;
+class WalletModelTransaction;
+
+class CCoinControl;
+class CKeyID;
+class COutPoint;
+class COutput;
+class CPubKey;
 class CWallet;
+class uint256;
 
 QT_BEGIN_NAMESPACE
 class QTimer;
