@@ -6,13 +6,18 @@
 
 #include "clientversion.h"
 #include "init.h"
+#include "networkstyle.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "version.h"
+
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #endif
 
 #include <QApplication>
+#include <QCloseEvent>
+#include <QDesktopWidget>
 #include <QPainter>
 
 SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
@@ -34,7 +39,7 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     QString copyrightText   = QChar(0xA9)+QString(" 2014-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The Bitcoin Core developers"));
     QString testnetAddText  = QString(tr("[testnet]")); // define text to place as single text object
 
-    QString font            = "Arial";
+    QString font            = QApplication::font().toString();
 
     // load the bitmap for writing some text over it
     QPixmap newPixmap;
@@ -60,7 +65,7 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
     pixPaint.setFont(QFont(font, 33*fontFactor));
     fm = pixPaint.fontMetrics();
     titleTextWidth  = fm.width(titleText);
-    pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop,titleText);
+    pixPaint.drawText(pixmap.width()-titleTextWidth-paddingRight,paddingTop,titleText);
 
     pixPaint.setFont(QFont(font, 15*fontFactor));
 
@@ -71,11 +76,11 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) :
         pixPaint.setFont(QFont(font, 10*fontFactor));
         titleVersionVSpace -= 5;
     }
-    pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight+2,paddingTop+titleVersionVSpace,versionText);
+    pixPaint.drawText(pixmap.width()-titleTextWidth-paddingRight+2,paddingTop+titleVersionVSpace,versionText);
 
     // draw copyright stuff
     pixPaint.setFont(QFont(font, 10*fontFactor));
-    pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace,copyrightText);
+    pixPaint.drawText(pixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace,copyrightText);
 
     // draw testnet string if testnet is on
     if(fTestNet) {
